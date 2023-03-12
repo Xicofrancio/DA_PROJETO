@@ -61,6 +61,48 @@ build CMakeFiles/DA_PROJETO.dir/src/Menu.cpp.obj: CXX_COMPILER__DA_PROJETO_Debug
   OBJECT_DIR = CMakeFiles\DA_PROJETO.dir
   OBJECT_FILE_DIR = CMakeFiles\DA_PROJETO.dir\src
 
+build CMakeFiles/DA_PROJETO.dir/src/StationManager.cpp.obj: CXX_COMPILER__DA_PROJETO_Debug C$:/Users/USER/Desktop/Universidade/2ano/DA_PROJETO/src/StationManager.cpp || cmake_object_order_depends_target_DA_PROJETO
+  DEP_FILE = CMakeFiles\DA_PROJETO.dir\src\StationManager.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\DA_PROJETO.dir
+  OBJECT_FILE_DIR = CMakeFiles\DA_PROJETO.dir\src
+
+build CMakeFiles/DA_PROJETO.dir/data_structures/Graph.cpp.obj: CXX_COMPILER__DA_PROJETO_Debug C$:/Users/USER/Desktop/Universidade/2ano/DA_PROJETO/data_structures/Graph.cpp || cmake_object_order_depends_target_DA_PROJETO
+  DEP_FILE = CMakeFiles\DA_PROJETO.dir\data_structures\Graph.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\DA_PROJETO.dir
+  OBJECT_FILE_DIR = CMakeFiles\DA_PROJETO.dir\data_structures
+
+build CMakeFiles/DA_PROJETO.dir/data_structures/Heap.cpp.obj: CXX_COMPILER__DA_PROJETO_Debug C$:/Users/USER/Desktop/Universidade/2ano/DA_PROJETO/data_structures/Heap.cpp || cmake_object_order_depends_target_DA_PROJETO
+  DEP_FILE = CMakeFiles\DA_PROJETO.dir\data_structures\Heap.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\DA_PROJETO.dir
+  OBJECT_FILE_DIR = CMakeFiles\DA_PROJETO.dir\data_structures
+
+build CMakeFiles/DA_PROJETO.dir/data_structures/UFDS.cpp.obj: CXX_COMPILER__DA_PROJETO_Debug C$:/Users/USER/Desktop/Universidade/2ano/DA_PROJETO/data_structures/UFDS.cpp || cmake_object_order_depends_target_DA_PROJETO
+  DEP_FILE = CMakeFiles\DA_PROJETO.dir\data_structures\UFDS.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\DA_PROJETO.dir
+  OBJECT_FILE_DIR = CMakeFiles\DA_PROJETO.dir\data_structures
+
+build CMakeFiles/DA_PROJETO.dir/data_structures/VertexEdge.cpp.obj: CXX_COMPILER__DA_PROJETO_Debug C$:/Users/USER/Desktop/Universidade/2ano/DA_PROJETO/data_structures/VertexEdge.cpp || cmake_object_order_depends_target_DA_PROJETO
+  DEP_FILE = CMakeFiles\DA_PROJETO.dir\data_structures\VertexEdge.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\DA_PROJETO.dir
+  OBJECT_FILE_DIR = CMakeFiles\DA_PROJETO.dir\data_structures
+
+build CMakeFiles/DA_PROJETO.dir/src/Database.cpp.obj: CXX_COMPILER__DA_PROJETO_Debug C$:/Users/USER/Desktop/Universidade/2ano/DA_PROJETO/src/Database.cpp || cmake_object_order_depends_target_DA_PROJETO
+  DEP_FILE = CMakeFiles\DA_PROJETO.dir\src\Database.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\DA_PROJETO.dir
+  OBJECT_FILE_DIR = CMakeFiles\DA_PROJETO.dir\src
+
+build CMakeFiles/DA_PROJETO.dir/src/Station.cpp.obj: CXX_COMPILER__DA_PROJETO_Debug C$:/Users/USER/Desktop/Universidade/2ano/DA_PROJETO/src/Station.cpp || cmake_object_order_depends_target_DA_PROJETO
+  DEP_FILE = CMakeFiles\DA_PROJETO.dir\src\Station.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\DA_PROJETO.dir
+  OBJECT_FILE_DIR = CMakeFiles\DA_PROJETO.dir\src
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target DA_PROJETO
@@ -69,7 +111,7 @@ build CMakeFiles/DA_PROJETO.dir/src/Menu.cpp.obj: CXX_COMPILER__DA_PROJETO_Debug
 #############################################
 # Link the executable DA_PROJETO.exe
 
-build DA_PROJETO.exe: CXX_EXECUTABLE_LINKER__DA_PROJETO_Debug CMakeFiles/DA_PROJETO.dir/main.cpp.obj CMakeFiles/DA_PROJETO.dir/src/Menu.cpp.obj
+build DA_PROJETO.exe: CXX_EXECUTABLE_LINKER__DA_PROJETO_Debug CMakeFiles/DA_PROJETO.dir/main.cpp.obj CMakeFiles/DA_PROJETO.dir/src/Menu.cpp.obj CMakeFiles/DA_PROJETO.dir/src/StationManager.cpp.obj CMakeFiles/DA_PROJETO.dir/data_structures/Graph.cpp.obj CMakeFiles/DA_PROJETO.dir/data_structures/Heap.cpp.obj CMakeFiles/DA_PROJETO.dir/data_structures/UFDS.cpp.obj CMakeFiles/DA_PROJETO.dir/data_structures/VertexEdge.cpp.obj CMakeFiles/DA_PROJETO.dir/src/Database.cpp.obj CMakeFiles/DA_PROJETO.dir/src/Station.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\DA_PROJETO.dir

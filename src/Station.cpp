@@ -1,0 +1,46 @@
+//
+// Created by USER on 12/03/2023.
+//
+
+#include "../include/Station.h"
+
+
+const std::string &Station::getName() const {
+    return name;
+}
+
+const std::string &Station::getDistrict() const {
+    return district;
+}
+
+const std::string &Station::getLine() const {
+    return line;
+}
+
+const std::string &Station::getMunicipality() const {
+    return municipality;
+}
+
+const std::string &Station::getTownship() const {
+    return township;
+}
+
+void Station::setName(const std::string &name) {
+    this->name = name;
+}
+
+void Station::setDistrict(const std::string &district) {
+    this->district = district;
+}
+
+void Station::setLine(const std::string &line) {
+    this->line = line;
+}
+
+void Station::setMunicipality(const std::string &municipality) {
+    this->municipality = municipality;
+}
+
+void Station::setTownship(const std::string &township) {
+    this->township = township;
+}

@@ -6,7 +6,13 @@
 #define DA_PROJETO_MENU_H
 
 
+#include "Database.h"
+#include "../include/Station.h"
 class Menu {
+    Database db;
+    std::unordered_map<int, Station> stations;
+
+
 public:
     Menu();
     void init();

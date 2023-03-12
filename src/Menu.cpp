@@ -4,10 +4,13 @@
 
 #include "../include/Menu.h"
 #include <sstream>
+#include <unordered_set>
 #include <iostream>
 
 using namespace std;
-
+Menu::Menu() {
+    stations = db.loadStationInfo();
+}
 void Menu::init() {
     while (true){
         cout << "--------------------------------------------------------\n";
@@ -22,16 +25,17 @@ void Menu::init() {
         cout << "| 0 - Exit                                             |\n";
         cout << "--------------------------------------------------------\n";
 
-        char opt;
-        while(true) {
-            std::cout << "\nOption: ";
-            std::cin >> opt;
-            if(opt <= '4' && opt >= '0' || opt == '9')
-                break;
-            std::cout << "Not a valid option, please choose another.\n";
+        int opt;
+        cout << "\nOption: ";
+        cin >> opt;
+
+        switch (opt) {
+            case 1:
+                for(auto f: stations){
+                    cout << "Nome: " << f.second.getName() << " " << "Distrito: " << f.second.getDistrict() << " " << "Municipality: " << f.second.getMunicipality() << " " << "Township: " << f.second.getTownship() << " " << "Line: " << f.second.getLine() << endl;
+                }
+
         }
-
-
 
     }
 }
