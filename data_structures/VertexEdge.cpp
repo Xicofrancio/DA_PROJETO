@@ -4,7 +4,8 @@
 
 /************************* Vertex  **************************/
 
-Vertex::Vertex(int id): id(id) {}
+Vertex::Vertex(std::string name): name(name) {}
+
 
 /*
  * Auxiliary function to add an outgoing edge to a vertex (this),
@@ -22,13 +23,13 @@ Edge * Vertex::addEdge(Vertex *d, double w) {
  * from a vertex (this).
  * Returns true if successful, and false if such edge does not exist.
  */
-bool Vertex::removeEdge(int destID) {
+bool Vertex::removeEdge(std::string destName) {
     bool removedEdge = false;
     auto it = adj.begin();
     while (it != adj.end()) {
         Edge *edge = *it;
         Vertex *dest = edge->getDest();
-        if (dest->getId() == destID) {
+        if (dest->getName() == destName) {
             it = adj.erase(it);
             deleteEdge(edge);
             removedEdge = true; // allows for multiple edges to connect the same pair of vertices (multigraph)
@@ -56,8 +57,8 @@ bool Vertex::operator<(Vertex & vertex) const {
     return this->dist < vertex.dist;
 }
 
-int Vertex::getId() const {
-    return this->id;
+std::string Vertex::getName() const {
+    return this->name;
 }
 
 std::vector<Edge*> Vertex::getAdj() const {
@@ -88,8 +89,8 @@ std::vector<Edge *> Vertex::getIncoming() const {
     return this->incoming;
 }
 
-void Vertex::setId(int id) {
-    this->id = id;
+void Vertex::setName(std::string name) {
+    this->name = name;
 }
 
 void Vertex::setVisited(bool visited) {
@@ -117,7 +118,7 @@ void Vertex::deleteEdge(Edge *edge) {
     // Remove the corresponding edge from the incoming list
     auto it = dest->incoming.begin();
     while (it != dest->incoming.end()) {
-        if ((*it)->getOrig()->getId() == id) {
+        if ((*it)->getOrig()->getName() == name) {
             it = dest->incoming.erase(it);
         }
         else {

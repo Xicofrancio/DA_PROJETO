@@ -22,7 +22,25 @@
   <component name="ChangeListManager">
     <list default="true" id="143df054-80e7-487b-89e8-a750551a7b5a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/codemodel-v2-b3c74e72a5230dbd92fb.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/index-2023-03-12T18-40-28-0886.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/DA_PROJETO.dir/data_structures/Graph.cpp.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/DA_PROJETO.dir/data_structures/Graph.cpp.obj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/DA_PROJETO.dir/data_structures/VertexEdge.cpp.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/DA_PROJETO.dir/data_structures/VertexEdge.cpp.obj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/DA_PROJETO.dir/main.cpp.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/DA_PROJETO.dir/main.cpp.obj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/DA_PROJETO.dir/src/Database.cpp.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/DA_PROJETO.dir/src/Database.cpp.obj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/DA_PROJETO.dir/src/Menu.cpp.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/DA_PROJETO.dir/src/Menu.cpp.obj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/DA_PROJETO.exe" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/DA_PROJETO.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_structures/Graph.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/data_structures/Graph.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_structures/Graph.h" beforeDir="false" afterPath="$PROJECT_DIR$/data_structures/Graph.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_structures/VertexEdge.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/data_structures/VertexEdge.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_structures/VertexEdge.h" beforeDir="false" afterPath="$PROJECT_DIR$/data_structures/VertexEdge.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/include/Database.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/Database.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Database.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Database.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Menu.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Menu.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,6 +91,11 @@
     </key>
   </component>
   <component name="RunManager">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="DA_PROJETO" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" WORKING_DIR="file://$PROJECT_DIR$" PASS_PARENT_ENVS_2="true" PROJECT_NAME="DA_PROJETO" TARGET_NAME="DA_PROJETO" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="DA_PROJETO" RUN_TARGET_NAME="DA_PROJETO">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -89,7 +112,7 @@
       <updated>1678641506829</updated>
       <workItem from="1678641508011" duration="4924000" />
       <workItem from="1678646549225" duration="2413000" />
-      <workItem from="1678720550840" duration="989000" />
+      <workItem from="1678720550840" duration="3523000" />
     </task>
     <servers />
   </component>

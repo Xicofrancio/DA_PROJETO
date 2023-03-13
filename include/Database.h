@@ -16,6 +16,7 @@
 class Database {
 public:
     std::unordered_map<int, Station> loadStationInfo();
+    void readNetwork();
 };
 
 

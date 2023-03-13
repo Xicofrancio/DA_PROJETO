@@ -5,10 +5,12 @@
 #include <iostream>
 #include "../include/Database.h"
 #include "../include/Station.h"
+#include "../data_structures/Graph.h"
 
 using namespace std;
 
 unordered_map<int, Station> Database::loadStationInfo() {
+    Graph g;
     unordered_map<int, Station> stationHash;
 
     ifstream stations("csv/stations.csv");
@@ -31,6 +33,7 @@ unordered_map<int, Station> Database::loadStationInfo() {
             station.setTownship(township);
             station.setLine(linestations);
             stationHash[count] = station;
+            g.addVertex(name);
             count++;
             id++;
         }return stationHash;
@@ -40,3 +43,22 @@ unordered_map<int, Station> Database::loadStationInfo() {
 
 
     }
+
+void Database::readNetwork() {
+    Graph g;
+    ifstream infile("csv/network.csv");
+    string line;
+    getline(infile,line); // Skip First Line
+
+    while(getline(infile,line)){
+
+        istringstream iss(line);
+        string substring;
+        vector<string> substrings{};
+
+        while(getline(iss, substring, ',')){
+            substrings.push_back(substring);
+        }
+        g.addEdge(substrings[0], substrings[1], stoi(substrings[2]), substrings[3]);
+    }
+}
