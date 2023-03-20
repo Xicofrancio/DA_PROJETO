@@ -7,36 +7,28 @@
 #include "../include/Station.h"
 #include "../data_structures/Graph.h"
 
+
 using namespace std;
 
-unordered_map<int, Station> Database::loadStationInfo() {
-    Graph g;
-    unordered_map<int, Station> stationHash;
+void Database::loadStationInfo() {
+    ifstream station("csv/stations.csv");
 
-    ifstream stations("csv/stations.csv");
-
-    if (stations.is_open()) {
-        int count = 0,id=0;
-        Station station;
+    if (station.is_open()) {
+        int count = 0;
         string line, name, district, municipality, township, linestations, throwaway;
-        getline(stations, throwaway);
-        while (getline(stations, line)) {
+        getline(station, throwaway);
+        while (getline(station, line)) {
             stringstream sep(line);
             getline(sep, name, ',');
             getline(sep, district, ',');
             getline(sep, municipality, ',');
             getline(sep, township, ',');
             getline(sep, linestations, '\n');
-            station.setName(name);
-            station.setDistrict(district);
-            station.setMunicipality(municipality);
-            station.setTownship(township);
-            station.setLine(linestations);
-            stationHash[count] = station;
-            g.addVertex(name);
+            Station* station = new Station(name, district, municipality, township, line);
+            stations.insert(*station);
+            trainNetwork.addVertex(name);
             count++;
-            id++;
-        }return stationHash;
+        }
     }else{
             cout << "stations.csv file not found in csv folder!";
         }
@@ -60,5 +52,13 @@ void Database::readNetwork() {
             substrings.push_back(substring);
         }
         g.addEdge(substrings[0], substrings[1], stoi(substrings[2]), substrings[3]);
+    }
+}
+
+void Database::stationInfo(std::string name) {
+    for(auto f: stations){
+        if(f.getName()==name){
+            cout << "Nome: " << f.getName() << endl << "Distrito: " << f.getDistrict() << "Municipio: " << f.getMunicipality() << "Township: " << f.getTownship() << "Line: " << f.getLine();
+        }
     }
 }

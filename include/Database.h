@@ -11,12 +11,19 @@
 #include <sstream>
 #include <algorithm>
 #include <cmath>
+#include "../data_structures/Graph.h"
+#include <set>
 
 
 class Database {
 public:
-    std::unordered_map<int, Station> loadStationInfo();
+    void loadStationInfo();
     void readNetwork();
+    void stationInfo(std::string name);
+private:
+    Graph trainNetwork;
+    std::set<Station> stations;
+
 };
 
 

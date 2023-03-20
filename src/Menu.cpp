@@ -9,9 +9,10 @@
 #include "../data_structures/Graph.h"
 #include <vector>
 
+
 using namespace std;
 Menu::Menu() {
-    stations = db.loadStationInfo();
+    db.loadStationInfo();
     db.readNetwork();
 }
 void Menu::init() {
@@ -34,9 +35,7 @@ void Menu::init() {
 
         switch (opt) {
             case 1:
-                for(auto f: stations){
-                    cout << "Nome: " << f.second.getName() << " " << "Distrito: " << f.second.getDistrict() << " " << "Municipality: " << f.second.getMunicipality() << " " << "Township: " << f.second.getTownship() << " " << "Line: " << f.second.getLine() << endl;
-                }
+                db.stationInfo("Porto");
             case 2:
                 Graph g;
 

@@ -44,3 +44,15 @@ void Station::setMunicipality(const std::string &municipality) {
 void Station::setTownship(const std::string &township) {
     this->township = township;
 }
+
+
+bool Station::operator<(const Station &s1) const {
+    if(this->name < s1.name) return true;
+    return false;
+
+}
+/*
+bool Station::operator==(const Station &s1) const {
+    if(this->name == s1.name) return true;
+    return false;
+}*/
