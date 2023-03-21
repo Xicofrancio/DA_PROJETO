@@ -24,7 +24,7 @@ void Database::loadStationInfo() {
             getline(sep, municipality, ',');
             getline(sep, township, ',');
             getline(sep, linestations, '\n');
-            Station* station = new Station(name, district, municipality, township, line);
+            Station* station = new Station(name, district, municipality, township, linestations);
             stations.insert(*station);
             trainNetwork.addVertex(name);
             count++;
@@ -58,7 +58,7 @@ void Database::readNetwork() {
 void Database::stationInfo(std::string name) {
     for(auto f: stations){
         if(f.getName()==name){
-            cout << "Nome: " << f.getName() << endl << "Distrito: " << f.getDistrict() << "Municipio: " << f.getMunicipality() << "Township: " << f.getTownship() << "Line: " << f.getLine();
+            cout << "Nome: " << f.getName() << endl << "Distrito: " << f.getDistrict() << endl << "Municipio: " << f.getMunicipality() << endl << "Township: " << f.getTownship() << endl << "Line: " << f.getLine() << endl;
         }
     }
 }

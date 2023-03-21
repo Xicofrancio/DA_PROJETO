@@ -35,7 +35,7 @@ void Menu::init() {
 
         switch (opt) {
             case 1:
-                db.stationInfo("Porto");
+                db.stationInfo("Porto Campanhã");
             case 2:
                 Graph g;
 
