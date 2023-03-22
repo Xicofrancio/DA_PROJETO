@@ -37,7 +37,6 @@ void Database::loadStationInfo() {
     }
 
 void Database::readNetwork() {
-    Graph g;
     ifstream infile("csv/network.csv");
     string line;
     getline(infile,line); // Skip First Line
@@ -56,9 +55,13 @@ void Database::readNetwork() {
 }
 
 void Database::stationInfo(std::string name) {
+    vector<Vertex*> vrtex = trainNetwork.getVertexSet();
+    for(auto f: vrtex){
+        cout << "Nome: " << f->getName() << endl;
+    }/*
     for(auto f: stations){
         if(f.getName()==name){
             cout << "Nome: " << f.getName() << endl << "Distrito: " << f.getDistrict() << endl << "Municipio: " << f.getMunicipality() << endl << "Township: " << f.getTownship() << endl << "Line: " << f.getLine() << endl;
         }
-    }
+    }*/
 }
