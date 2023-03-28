@@ -37,22 +37,33 @@ void Database::loadStationInfo() {
     }
 
 void Database::readNetwork() {
-    Graph g;
-    ifstream infile("csv/network.csv");
     string line;
-    getline(infile,line); // Skip First Line
-
-    while(getline(infile,line)){
-
-        istringstream iss(line);
-        string substring;
-        vector<string> substrings{};
-
-        while(getline(iss, substring, ',')){
-            substrings.push_back(substring);
-        }
-        g.addEdge(substrings[0], substrings[1], stoi(substrings[2]), substrings[3]);
+    int network_count = 0;
+    std::ifstream networkFile;
+    networkFile.open("../resources/network.csv");
+    if (!networkFile.is_open()) {
+        cout << "File not found\n";
+        return;
     }
+
+    getline(networkFile, line);
+    while (getline(networkFile, line)) {
+        //row.clear();
+        string stationA, stationB, capacity, service;
+        istringstream iss(line);
+        getline(iss, stationA, ',');
+        getline(iss, stationB, ',');
+        getline(iss, capacity, ',');
+        getline(iss, service, '\0');
+
+        Network network(stationA, stationB, stoi(capacity), service);
+        networkSet.insert(network);
+
+        int code_StationA = stations_code_reverse[stationA];
+        int code_StationB = stations_code_reverse[stationB];
+        addEdge(code_StationA, code_StationB, std::stod(capacity));
+    }
+    networkFile.close();
 }
 
 void Database::stationInfo(std::string name) {
