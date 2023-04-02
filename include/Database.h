@@ -13,16 +13,21 @@
 #include <cmath>
 #include "../data_structures/Graph.h"
 #include <set>
+#include "../include/Database.h"
+#include "../include/Station.h"
+#include "../include/Network.h"
 
 
-class Database {
+
+class Database{
 public:
     void loadStationInfo();
     void readNetwork();
     void stationInfo(std::string name);
 private:
     Graph trainNetwork;
-    std::set<Station> stations;
+    std::set<Station> stationsSet;
+    std::set<Network> networkSet;
 
 };
 

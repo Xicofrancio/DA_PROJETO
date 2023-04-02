@@ -4,15 +4,6 @@
 
 #include "../include/Network.h"
 
-Network::Network(std::string stationA, std::string stationB)
-        : stationA_(stationA), stationB_(stationB) {}
-
-Network::Network(std::string stationA, std::string stationB, double capacity, std::string service)
-        : stationA_(stationA),
-          stationB_(stationB),
-          capacity_(capacity),
-          service_(service) {}
-
 const string Network::getStationA() const {
     return stationA_;
 }

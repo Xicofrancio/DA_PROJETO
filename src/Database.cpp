@@ -2,10 +2,8 @@
 // Created by USER on 12/03/2023.
 //
 
-#include <iostream>
 #include "../include/Database.h"
-#include "../include/Station.h"
-#include "../data_structures/Graph.h"
+
 
 
 using namespace std;
@@ -25,7 +23,7 @@ void Database::loadStationInfo() {
             getline(sep, township, ',');
             getline(sep, linestations, '\n');
             Station* station = new Station(name, district, municipality, township, linestations);
-            stations.insert(*station);
+            stationsSet.insert(*station);
             trainNetwork.addVertex(name);
             count++;
         }
@@ -56,18 +54,15 @@ void Database::readNetwork() {
         getline(iss, capacity, ',');
         getline(iss, service, '\0');
 
-        Network network(stationA, stationB, stoi(capacity), service);
-        networkSet.insert(network);
+        Network* network = new Network(stationA, stationB, stoi(capacity), service);
+        networkSet.insert(*network);
 
-        int code_StationA = stations_code_reverse[stationA];
-        int code_StationB = stations_code_reverse[stationB];
-        addEdge(code_StationA, code_StationB, std::stod(capacity));
     }
     networkFile.close();
 }
 
 void Database::stationInfo(std::string name) {
-    for(auto f: stations){
+    for(auto f: stationsSet){
         if(f.getName()==name){
             cout << "Nome: " << f.getName() << endl << "Distrito: " << f.getDistrict() << endl << "Municipio: " << f.getMunicipality() << endl << "Township: " << f.getTownship() << endl << "Line: " << f.getLine() << endl;
         }

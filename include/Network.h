@@ -14,8 +14,8 @@ using namespace std;
 
 class Network {
 public:
-    Network(string stationA, string stationB);
-    Network(string stationA, string stationB, double capacity, string service);
+    Network(string stationA, string stationB): stationA_(stationA), stationB_(stationB) {};
+    Network(string stationA, string stationB, double capacity, string service): stationA_(stationA), stationB_(stationB), capacity_(capacity), service_(service) {} ;
     bool operator<(const Network& network2) const;
 
     const string getStationA() const;
