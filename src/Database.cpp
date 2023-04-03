@@ -36,7 +36,34 @@ void Database::loadStationInfo() {
             trainNetwork.addVertex(a);
         }
 
+
+    int count = 0 ;g
+    ifstream infile("csv/stations.csv");
+    if(!infile.open()){
+        cout << "Impossivel abrir ficheiro";
+
     }
+    getline(in, line);
+    while(getline(in,line)){
+        istringstream iss(line);
+        count++;
+        getline(iss,name,',');
+        getline(iss,district,',');
+        getline(iss,municipality,',');
+        getline(iss,township,',');
+        getline(iss,l);
+        Station a = Station(name, district, municipality, township, l);
+        auto iterator = stations.find(name);
+        if(iterator==stations.end()){
+            stations.emplace(name,a);
+            trainNetwork.addVertex(a);
+        }
+    }
+}
+
+
+
+void Database::loadNetworkInfo() {
 
 
 void Database::loadNetworkInfo() {
@@ -71,6 +98,7 @@ void Database::loadNetworkInfo() {
 }
 
 void Database::stationInfo(std::string name) {
+
     vector<Vertex*> vrtex = trainNetwork.getVertexSet();
     for(auto f: vrtex){
         cout << "Nome: " << f->getName() << endl;
@@ -90,4 +118,19 @@ void Database::maxFLow() {
     int max = trainNetwork.edmondsKarp(s,t);
     cout << "The maximum number of trains that can simultaneously travel between " <<
     << s << " and " << t << " is " << max << ".\n";
+
+
+    vector<Vertex*> vrtex = trainNetwork.getVertexSet();
+    for(auto f: vrtex){
+        cout << "Nome: " << f->getName() << endl;
+    }/*
+    for(auto f: stations){
+
+    for(auto f: stationsSet){
+
+        if(f.getName()==name){
+            cout << "Nome: " << f.getName() << endl << "Distrito: " << f.getDistrict() << endl << "Municipio: " << f.getMunicipality() << endl << "Township: " << f.getTownship() << endl << "Line: " << f.getLine() << endl;
+        }
+    }*/
+
 }
