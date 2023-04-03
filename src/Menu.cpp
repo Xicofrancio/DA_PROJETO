@@ -22,7 +22,8 @@ void Menu::init() {
         cout << "|                                                      |\n";
         cout << "| 1 - Show Station info                                |\n";
         cout << "| 2 - Graph info                                       |\n";
-        cout << "| 3 -                                                  |\n";
+        cout << "| 3 - Calculate the maximum number of trains that can  |\n";
+        cout << "| simultaneously travel between two specific stations. |\n";
         cout << "| 4 -                                                  |\n";
         cout << "|                                                      |\n";
         cout << "| 9 - Settings                                         |\n";
@@ -36,6 +37,7 @@ void Menu::init() {
         switch (opt) {
             case 1:
                 db.stationInfo("Porto Campanhã");
+                break;
             case 2:
                 Graph g;
 
@@ -43,6 +45,10 @@ void Menu::init() {
                 for(auto f: vertex){
                     cout << f->getName() << endl;
                 }
+                break;
+            case 3:
+                db.maxFLow()
+                break;
         }
 
     }

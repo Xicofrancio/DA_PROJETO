@@ -91,3 +91,70 @@ Graph::~Graph() {
     deleteMatrix(distMatrix, vertexSet.size());
     deleteMatrix(pathMatrix, vertexSet.size());
 }
+
+bool Graph::augmentingPath(Vertex *s, Vertex *t) {
+    for(auto vertex : vertexSet) {
+        vertex->setVisited(false);
+    }
+    s->setVisited(true);
+    std::queue<Vertex *> q;
+    q.push(s);
+    while( ! q.empty() && ! t->isVisited()) {
+        auto vertex = q.front();
+        q.pop();
+        for(auto e: vertex->getAdj()) {
+            testAndVisit(q, e, e->getDest(), e->getWeight() - e->getFlow());
+        }
+        for(auto e: vertex->getIncoming()) {
+            testAndVisit(q, e, e->getOrig(), e->getFlow());
+        }
+    }
+    return t->isVisited();
+}
+double Graph::minResidual(Vertex *s, Vertex *t) {
+    double f = INF;
+    for (auto v = t; v != s; ) {
+        auto e = v->getPath();
+        if (e->getDest() == v) {
+            f = std::min(f, e->getWeight() - e->getFlow());
+            v = e->getOrig();
+        }
+        else {
+            f = std::min(f, e->getFlow());
+            v = e->getDest();
+        }
+    }
+    return f;
+}
+
+void Graph::augmentFlow(Vertex *s, Vertex *t, double f) {
+    for (auto v = t; v != s; ) {
+        auto e = v->getPath();
+        double flow = e->getFlow();
+        if (e->getDest() == v) {
+            e->setFlow(flow + f);
+            v = e->getOrig();
+        }
+        else {
+            e->setFlow(flow - f);
+            v = e->getDest();
+        }
+    }
+}
+
+int Graph::edmondsKarp(Vertex *s, Vertex *t) {
+    for(auto vertex: vertexSet){
+        for(auto edge: vertex->getAdj()){
+            edge->setFlow(0);
+        }
+    }
+    while(augmentingPath(s,t)){
+        double f = minResidual(s,t);
+        augmentFlow(s,t,f);
+    }
+    int max = 0;
+    for(Edge* e = s->getAdj()){
+        max += e->getFlow();
+    }
+    return max;
+}

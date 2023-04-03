@@ -32,6 +32,7 @@ public:
     void loadStationInfo();
     void loadNetworkInfo();
     void stationInfo(std::string name);
+    void maxFLow();
 private:
     Graph trainNetwork;
     std::set<Station> stationsSet;

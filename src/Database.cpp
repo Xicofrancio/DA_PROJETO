@@ -13,39 +13,40 @@ Database::Database(){
     loadNetworkInfo();
 }
 void Database::loadStationInfo() {
-    ifstream station("csv/stations.csv");
-
-    if (station.is_open()) {
-        int count = 0;
-        string line, name, district, municipality, township, linestations, throwaway;
-        getline(station, throwaway);
-        while (getline(station, line)) {
-            stringstream sep(line);
-            getline(sep, name, ',');
-            getline(sep, district, ',');
-            getline(sep, municipality, ',');
-            getline(sep, township, ',');
-            getline(sep, linestations, '\n');
-            Station* station = new Station(name, district, municipality, township, linestations);
-            stationsSet.insert(*station);
-            trainNetwork.addVertex(name);
-            count++;
+    string name, district, municipality, township, l, line;
+    int count = 0;
+    ifstream in;
+    in.open("csv/stations.csv")
+    if(!in.is_open()){
+        cout << "Impossivel abrir ficheiro";
+    }
+    getline(in,line);
+    while(getline(in))
+        istringstream iss(line);
+        count++;
+        getline(iss, name, ',');
+        getline(iss, district, ',');
+        getline(iss, municipality, ',');
+        getline(iss,township,',');
+        getline(iss, l);
+        Station a = Station(name,district,municipaly,township,l);
+        auto it = stations.find(a);
+        if(it == stations.end()){
+            stations.emplace(name,a);
+            trainNetwork.addVertex(a);
         }
-    }else{
-            cout << "stations.csv file not found in csv folder!";
-        }
-
 
     }
 
 
-void Database::readNetwork() {
+void Database::loadNetworkInfo() {
+
     int capacity;
     string staA, staB, service, line;
     double w = 0;
-    ifstream infile;
-    infile.open("csv/network.csv");
-    if(!infile.is_open()){
+    ifstream in;
+    in.open("csv/network.csv");
+    if(!in.is_open()){
         cout << "Impossivel abrir ficheiro";
     }
     getline(in, line);
@@ -67,48 +68,26 @@ void Database::readNetwork() {
         }
 
     }
-
-}
-void Database::loadNetworkInfo() {
-
-    string line;
-    int network_count = 0;
-    std::ifstream networkFile;
-    networkFile.open("../resources/network.csv");
-    if (!networkFile.is_open()) {
-        cout << "File not found\n";
-        return;
-    }
-
-    getline(networkFile, line);
-    while (getline(networkFile, line)) {
-        //row.clear();
-        string stationA, stationB, capacity, service;
-        istringstream iss(line);
-        getline(iss, stationA, ',');
-        getline(iss, stationB, ',');
-        getline(iss, capacity, ',');
-        getline(iss, service, '\0');
-
-        Network* network = new Network(stationA, stationB, stoi(capacity), service);
-        networkSet.insert(*network);
-
-    }
-    networkFile.close();
 }
 
 void Database::stationInfo(std::string name) {
-<<<<<<< HEAD
     vector<Vertex*> vrtex = trainNetwork.getVertexSet();
     for(auto f: vrtex){
         cout << "Nome: " << f->getName() << endl;
-    }/*
-    for(auto f: stations){
-=======
-    for(auto f: stationsSet){
->>>>>>> d04f444d2ed484cde13d01202b1be75583d91f71
-        if(f.getName()==name){
-            cout << "Nome: " << f.getName() << endl << "Distrito: " << f.getDistrict() << endl << "Municipio: " << f.getMunicipality() << endl << "Township: " << f.getTownship() << endl << "Line: " << f.getLine() << endl;
-        }
-    }*/
+    }
+}
+
+void Database::maxFLow() {
+    string s1, s2;
+    cout << "Enter the first station: ";
+    cin >> s1;
+    cout << "Enter the first station: ";
+    cin << s2;
+
+    Vertex s = stations.find(s1);
+    Vertex t = stations.find(s2);
+
+    int max = trainNetwork.edmondsKarp(s,t);
+    cout << "The maximum number of trains that can simultaneously travel between " <<
+    << s << " and " << t << " is " << max << ".\n";
 }
