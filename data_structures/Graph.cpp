@@ -92,6 +92,14 @@ Graph::~Graph() {
     deleteMatrix(pathMatrix, vertexSet.size());
 }
 
+void Graph::testAndVisit(std::queue< Vertex*> &q, Edge *e, Vertex *w, double residual) {
+    if (! w->isVisited() && residual > 0) {
+        w->setVisited(true);
+        w->setPath(e);
+        q.push(w);
+    }
+}
+
 bool Graph::augmentingPath(Vertex *s, Vertex *t) {
     for(auto vertex : vertexSet) {
         vertex->setVisited(false);
@@ -153,7 +161,7 @@ int Graph::edmondsKarp(Vertex *s, Vertex *t) {
         augmentFlow(s,t,f);
     }
     int max = 0;
-    for(Edge* e = s->getAdj()){
+    for(Edge* e : s->getAdj()){
         max += e->getFlow();
     }
     return max;

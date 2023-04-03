@@ -36,6 +36,7 @@ public:
     int getNumVertex() const;
     std::vector<Vertex *> getVertexSet() const;
 
+    void testAndVisit(std::queue< Vertex*> &q, Edge *e, Vertex *w, double residual);
     void augmentFlow(Vertex *s, Vertex *t, double f);
     double minResidual(Vertex *s, Vertex *t);
     bool augmentingPath(Vertex *s, Vertex *t);
