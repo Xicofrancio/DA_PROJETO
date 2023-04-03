@@ -13,7 +13,7 @@
 using namespace std;
 Menu::Menu() {
     db.loadStationInfo();
-    db.readNetwork();
+    db.loadNetworkInfo();
 }
 void Menu::init() {
     while (true){

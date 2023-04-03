@@ -8,6 +8,10 @@
 
 using namespace std;
 
+Database::Database(){
+    loadStationInfo();
+    loadNetworkInfo();
+}
 void Database::loadStationInfo() {
     ifstream station("csv/stations.csv");
 
@@ -34,7 +38,7 @@ void Database::loadStationInfo() {
 
     }
 
-void Database::readNetwork() {
+void Database::loadNetworkInfo() {
     string line;
     int network_count = 0;
     std::ifstream networkFile;

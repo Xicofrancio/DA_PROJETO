@@ -18,17 +18,25 @@
 #include "../include/Network.h"
 
 
+class Hash{
+    public:
+        size_t operator()(const Network& n)const{
+            return n.getStationA().length() + n.getStationB().length() + n.getService().length() + n.getCapacity();
+        }
 
+};
 class Database{
 public:
+    Database();
     void loadStationInfo();
-    void readNetwork();
+    void loadNetworkInfo();
     void stationInfo(std::string name);
 private:
     Graph trainNetwork;
     std::set<Station> stationsSet;
     std::set<Network> networkSet;
-
+    unordered_map<std::string,Station> stations;
+    unordered_map<Network,double,Hash> networks;
 };
 
 

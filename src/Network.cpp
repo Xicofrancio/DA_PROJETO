@@ -4,34 +4,39 @@
 
 #include "../include/Network.h"
 
-const string Network::getStationA() const {
-    return stationA_;
+const string &Network::getStationA() const {
+    return stationA;
 }
-const string Network::getStationB() const {
-    return stationB_;
+const string &Network::getStationB() const {
+    return stationB;
 }
 const double Network::getCapacity() const {
-    return capacity_;
+    return capacity;
 }
-const string Network::getService() const {
-    return service_;
+const string &Network::getService() const {
+    return service;
 }
 
 void Network::setStationA(const std::string stationA) {
-    stationA_ = stationA;
+    this->stationA = stationA;
 }
 void Network::setStationB(const std::string stationB) {
-    stationB_ = stationB;
+    this->stationB = stationB;
 }
 void Network::setCapacity(const double capacity) {
-    capacity_ = capacity;
+    this->capacity = capacity;
 }
 void Network::setService(const std::string service) {
-    service_ = service;
+    this->service = service;
 }
 bool Network::operator<(const Network& network2) const{
-    if(stationA_==network2.stationA_){
-        return stationB_<network2.stationB_;
+    if(stationA==network2.stationA){
+        return stationB<network2.stationB;
     }
-    return stationA_<network2.stationA_;
+    return stationA<network2.stationA;
+}
+
+bool Network::operator==(const Network& a) const{
+    return (stationA == a.getStationA() && stationB == a.getStationB() &&
+            capacity == a.getCapacity() && service == a.getService());
 }

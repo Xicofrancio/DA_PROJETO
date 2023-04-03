@@ -14,6 +14,7 @@ using namespace std;
 class Station {
 public:
     Station(string name,string district, string municipality, string township, string line): name(name), district(district), municipality(municipality), township(township),line(line){};
+
     const std::string &getName() const;
     const std::string &getDistrict() const;
     const std::string &getMunicipality() const;
@@ -25,8 +26,7 @@ public:
     void setTownship(const std::string &township);
     void setLine(const std::string &line);
     bool operator<(const Station& s1) const;
-    /*
-    bool operator==(const Station& s1) const;*/
+    bool operator==(const Station& s1) const;
 private:
     std::string name;
     std::string district;
