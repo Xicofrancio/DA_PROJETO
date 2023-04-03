@@ -51,8 +51,9 @@ bool Station::operator<(const Station &s1) const {
     return false;
 
 }
-/*
+
 bool Station::operator==(const Station &s1) const {
-    if(this->name == s1.name) return true;
-    return false;
-}*/
+    return s1.getName() == name && s1.getDistrict() == district &&
+           s1.getLine() == line && s1.getMunicipality() == municipality &&
+           s1.getTownship() == township;
+}
