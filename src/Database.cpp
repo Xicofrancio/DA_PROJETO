@@ -14,7 +14,7 @@ Database::Database(){
 }
 void Database::loadStationInfo() {
     string name, district, municipality, township, l, line;
-    int count = 0 ;
+    int count = 0 ;g
     ifstream infile("csv/stations.csv");
     if(!infile.open()){
         cout << "Impossivel abrir ficheiro";
@@ -70,15 +70,15 @@ void Database::loadNetworkInfo() {
 }
 
 void Database::stationInfo(std::string name) {
-<<<<<<< HEAD
+
     vector<Vertex*> vrtex = trainNetwork.getVertexSet();
     for(auto f: vrtex){
         cout << "Nome: " << f->getName() << endl;
     }/*
     for(auto f: stations){
-=======
+
     for(auto f: stationsSet){
->>>>>>> d04f444d2ed484cde13d01202b1be75583d91f71
+
         if(f.getName()==name){
             cout << "Nome: " << f.getName() << endl << "Distrito: " << f.getDistrict() << endl << "Municipio: " << f.getMunicipality() << endl << "Township: " << f.getTownship() << endl << "Line: " << f.getLine() << endl;
         }
