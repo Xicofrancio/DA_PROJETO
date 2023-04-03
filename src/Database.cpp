@@ -76,8 +76,8 @@ void Database::menu() {
         cout << "| 2 - Graph info                                       |\n";
         cout << "| 3 - Calculate the maximum number of trains that can  |\n";
         cout << "| simultaneously travel between two specific stations. |\n";
-        cout << "| 4 -                                                  |\n";
-        cout << "|                                                      |\n";
+        cout << "| 4 - Calculate pairs of stations that require the     |\n";
+        cout << "| most amount of trains.                               |\n";
         cout << "| 9 - Settings                                         |\n";
         cout << "| 0 - Exit                                             |\n";
         cout << "--------------------------------------------------------\n";
@@ -94,6 +94,12 @@ void Database::menu() {
                 break;
             case 3:
                 maxFLow();
+                break;
+            case 4:
+                mostAmountTrains();
+                break;
+            default:
+                cout << "Invalid input!" << endl;
                 break;
         }
 
@@ -125,4 +131,31 @@ void Database::maxFLow() {
     s1 << " and " << s2 << " is " << max << ".\n";
 
 
+}
+
+vector<pair<Station,Station>> Database::mostAmountTrains(){
+    int max = 0;
+    vector<pair<Station,Station>> result;
+    for(auto vertex: trainNetwork.getVertexSet()) vertex->setVisited(false);
+    for(auto vertex: trainNetwork.getVertexSet()){
+        vertex->setVisited(true);
+        for(auto edge: vertex->getAdj()){
+            if(edge->getWeight() > max && !(edge->getDest()->isVisited())){
+                result.clear();
+                max = edge->getWeight();
+                result.push_back(make_pair(edge->getOrig()->getStation(),edge->getDest()->getStation()));
+                continue;
+            }
+            if(edge->getWeight() == max && !(edge->getDest()->isVisited())){
+                result.push_back(make_pair(edge->getOrig()->getStation(),edge->getDest()->getStation()));
+                continue;
+            }
+            edge->getDest()->setVisited(true);
+        }
+    }
+
+    cout << "The pairs of stations that take the most of trains are: " << endl;
+    for (auto it = result.begin(); it != result.end(); it++ ){
+        cout << it->first.getName() << " and " << it->second.getName() << endl;
+    }
 }
