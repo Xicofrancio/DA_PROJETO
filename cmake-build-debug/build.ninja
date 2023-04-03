@@ -106,6 +106,12 @@ build CMakeFiles/DA_PROJETO.dir/src/Network.cpp.o: CXX_COMPILER__DA_PROJETO_Debu
   OBJECT_DIR = CMakeFiles/DA_PROJETO.dir
   OBJECT_FILE_DIR = CMakeFiles/DA_PROJETO.dir/src
 
+build CMakeFiles/DA_PROJETO.dir/src/NetWork.cpp.obj: CXX_COMPILER__DA_PROJETO_Debug C$:/Users/USER/Desktop/Universidade/2ano/DA_PROJETO/src/NetWork.cpp || cmake_object_order_depends_target_DA_PROJETO
+  DEP_FILE = CMakeFiles\DA_PROJETO.dir\src\NetWork.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\DA_PROJETO.dir
+  OBJECT_FILE_DIR = CMakeFiles\DA_PROJETO.dir\src
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target DA_PROJETO
@@ -114,6 +120,17 @@ build CMakeFiles/DA_PROJETO.dir/src/Network.cpp.o: CXX_COMPILER__DA_PROJETO_Debu
 #############################################
 # Link the executable DA_PROJETO
 
+<<<<<<< HEAD
+build DA_PROJETO.exe: CXX_EXECUTABLE_LINKER__DA_PROJETO_Debug CMakeFiles/DA_PROJETO.dir/main.cpp.obj CMakeFiles/DA_PROJETO.dir/src/Menu.cpp.obj CMakeFiles/DA_PROJETO.dir/src/StationManager.cpp.obj CMakeFiles/DA_PROJETO.dir/data_structures/Graph.cpp.obj CMakeFiles/DA_PROJETO.dir/data_structures/Heap.cpp.obj CMakeFiles/DA_PROJETO.dir/data_structures/UFDS.cpp.obj CMakeFiles/DA_PROJETO.dir/data_structures/VertexEdge.cpp.obj CMakeFiles/DA_PROJETO.dir/src/Database.cpp.obj CMakeFiles/DA_PROJETO.dir/src/Station.cpp.obj CMakeFiles/DA_PROJETO.dir/src/NetWork.cpp.obj
+  FLAGS = -g
+  LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
+  OBJECT_DIR = CMakeFiles\DA_PROJETO.dir
+  POST_BUILD = cd .
+  PRE_LINK = cd .
+  TARGET_FILE = DA_PROJETO.exe
+  TARGET_IMPLIB = libDA_PROJETO.dll.a
+  TARGET_PDB = DA_PROJETO.exe.dbg
+=======
 build DA_PROJETO: CXX_EXECUTABLE_LINKER__DA_PROJETO_Debug CMakeFiles/DA_PROJETO.dir/main.cpp.o CMakeFiles/DA_PROJETO.dir/src/Menu.cpp.o CMakeFiles/DA_PROJETO.dir/src/StationManager.cpp.o CMakeFiles/DA_PROJETO.dir/data_structures/Graph.cpp.o CMakeFiles/DA_PROJETO.dir/data_structures/Heap.cpp.o CMakeFiles/DA_PROJETO.dir/data_structures/UFDS.cpp.o CMakeFiles/DA_PROJETO.dir/data_structures/VertexEdge.cpp.o CMakeFiles/DA_PROJETO.dir/src/Database.cpp.o CMakeFiles/DA_PROJETO.dir/src/Station.cpp.o CMakeFiles/DA_PROJETO.dir/src/Network.cpp.o
   FLAGS = -g -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk
   OBJECT_DIR = CMakeFiles/DA_PROJETO.dir
@@ -121,6 +138,7 @@ build DA_PROJETO: CXX_EXECUTABLE_LINKER__DA_PROJETO_Debug CMakeFiles/DA_PROJETO.
   PRE_LINK = :
   TARGET_FILE = DA_PROJETO
   TARGET_PDB = DA_PROJETO.dbg
+>>>>>>> d04f444d2ed484cde13d01202b1be75583d91f71
 
 
 #############################################

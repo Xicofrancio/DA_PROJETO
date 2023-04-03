@@ -10,6 +10,7 @@
 #include <fstream>
 #include <sstream>
 #include <algorithm>
+#include <unordered_map>
 #include <cmath>
 #include "../data_structures/Graph.h"
 #include <set>

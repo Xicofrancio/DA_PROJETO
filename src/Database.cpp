@@ -38,7 +38,39 @@ void Database::loadStationInfo() {
 
     }
 
+
+void Database::readNetwork() {
+    int capacity;
+    string staA, staB, service, line;
+    double w = 0;
+    ifstream infile;
+    infile.open("csv/network.csv");
+    if(!infile.is_open()){
+        cout << "Impossivel abrir ficheiro";
+    }
+    getline(in, line);
+    while(getline(in,line)) {
+        istringstream iss(line);
+        getline(iss, staA, ',');
+        getline(iss, staB, ',');
+        iss >> capacity;
+        iss.ignore(1);
+        getline(iss, service, ',');
+        Network a  = Network(staA, staB, capacity, service);
+        pair<int,string> weight = make_pair(capacity, service);
+        auto iterator = networks.find(a);
+        if(it == networks.end()){
+            networks.emplace(a,w);
+            auto iterator2 = stations.find(staA);
+            auto iterator3 = stations.find(staB);
+            trainNetwork.addBidirectionalEdge(iterator2->second,iterator3->second, capacity, service);
+        }
+
+    }
+
+}
 void Database::loadNetworkInfo() {
+
     string line;
     int network_count = 0;
     std::ifstream networkFile;
@@ -66,9 +98,17 @@ void Database::loadNetworkInfo() {
 }
 
 void Database::stationInfo(std::string name) {
+<<<<<<< HEAD
+    vector<Vertex*> vrtex = trainNetwork.getVertexSet();
+    for(auto f: vrtex){
+        cout << "Nome: " << f->getName() << endl;
+    }/*
+    for(auto f: stations){
+=======
     for(auto f: stationsSet){
+>>>>>>> d04f444d2ed484cde13d01202b1be75583d91f71
         if(f.getName()==name){
             cout << "Nome: " << f.getName() << endl << "Distrito: " << f.getDistrict() << endl << "Municipio: " << f.getMunicipality() << endl << "Township: " << f.getTownship() << endl << "Line: " << f.getLine() << endl;
         }
-    }
+    }*/
 }

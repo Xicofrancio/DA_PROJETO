@@ -21,7 +21,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="143df054-80e7-487b-89e8-a750551a7b5a" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< HEAD
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/include/Database.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/Database.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/include/Network.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/Network.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/include/Station.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/Station.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Database.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Database.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Network.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Network.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Station.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Station.cpp" afterDir="false" />
+>>>>>>> d04f444d2ed484cde13d01202b1be75583d91f71
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,11 +92,14 @@
         <option name="CLION.EXTERNAL.BUILD" enabled="true" />
       </method>
     </configuration>
+<<<<<<< HEAD
+=======
     <configuration name="DA_PROJETO" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" WORKING_DIR="file://$PROJECT_DIR$" PASS_PARENT_ENVS_2="true" PROJECT_NAME="DA_PROJETO" TARGET_NAME="DA_PROJETO" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="DA_PROJETO" RUN_TARGET_NAME="DA_PROJETO">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
+>>>>>>> d04f444d2ed484cde13d01202b1be75583d91f71
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -96,7 +114,10 @@
       <workItem from="1678720550840" duration="3523000" />
       <workItem from="1679326656920" duration="42000" />
       <workItem from="1679328397897" duration="3394000" />
-      <workItem from="1679403618656" duration="683000" />
+      <workItem from="1679403618656" duration="1481000" />
+      <workItem from="1679475769350" duration="2362000" />
+      <workItem from="1680529179315" duration="6000" />
+      <workItem from="1680536366699" duration="889000" />
     </task>
     <servers />
   </component>
