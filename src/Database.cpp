@@ -8,15 +8,13 @@
 
 using namespace std;
 
-Database::Database(){
-    loadStationInfo();
-    loadNetworkInfo();
-}
+Database::Database() = default;
+
 void Database::loadStationInfo() {
     string name, district, municipality, township, l, line;
     int count = 0;
     ifstream in;
-    in.open("csv/stations.csv");
+    in.open("../csv/stations.csv");
     if (!in.is_open()) {
         cout << "Impossivel abrir ficheiro";
     }
@@ -34,7 +32,6 @@ void Database::loadStationInfo() {
         if (it == stations.end()) {
             stations.emplace(name, a);
             trainNetwork.addVertex(a);
-
         }
 
     }
@@ -45,7 +42,7 @@ void Database::loadNetworkInfo() {
     string staA, staB, service, line;
     double w = 0;
     ifstream in;
-    in.open("csv/network.csv");
+    in.open("../csv/network.csv");
     if(!in.is_open()){
         cout << "Impossivel abrir ficheiro";
     }
@@ -70,27 +67,62 @@ void Database::loadNetworkInfo() {
     }
 }
 
+void Database::menu() {
+    while (true){
+        cout << "--------------------------------------------------------\n";
+        cout << "|      Welcome to the Railway Network Management       |\n";
+        cout << "|                                                      |\n";
+        cout << "| 1 - Show Station info                                |\n";
+        cout << "| 2 - Graph info                                       |\n";
+        cout << "| 3 - Calculate the maximum number of trains that can  |\n";
+        cout << "| simultaneously travel between two specific stations. |\n";
+        cout << "| 4 -                                                  |\n";
+        cout << "|                                                      |\n";
+        cout << "| 9 - Settings                                         |\n";
+        cout << "| 0 - Exit                                             |\n";
+        cout << "--------------------------------------------------------\n";
+
+        int opt;
+        cout << "\nOption: ";
+        cin >> opt;
+
+        switch (opt) {
+            case 1:
+                stationInfo("Faro");
+                break;
+            case 2:
+                break;
+            case 3:
+                maxFLow();
+                break;
+        }
+
+    }
+}
+
 void Database::stationInfo(std::string name) {
 
-    vector<Vertex*> vrtex = trainNetwork.getVertexSet();
-    for(auto f: vrtex){
+    vector<Vertex*> vertex = trainNetwork.getVertexSet();
+    for(auto f: vertex){
         cout << "Nome: " << f->getStation().getName() << endl;
     }
 }
 
 void Database::maxFLow() {
     string s1, s2;
+    cin.ignore(1, '\n');
     cout << "Enter the first station: ";
-    cin >> s1;
-    cout << "Enter the first station: ";
-    cin >> s2;
+    getline(cin, s1);
 
-    Vertex* s = trainNetwork.findVertex(s1);
-    Vertex* t = trainNetwork.findVertex(s2);
+    cout << "Enter the second station: ";
+    getline(cin,s2);
+
+    Vertex* s = trainNetwork.findVertexName(s1);
+    Vertex* t = trainNetwork.findVertexName(s2);
 
     int max = trainNetwork.edmondsKarp(s,t);
     cout << "The maximum number of trains that can simultaneously travel between " <<
-    s << " and " << t << " is " << max << ".\n";
+    s1 << " and " << s2 << " is " << max << ".\n";
 
 
 }

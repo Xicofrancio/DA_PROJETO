@@ -20,6 +20,13 @@ Vertex * Graph::findVertex(Station &station) const {
     return nullptr;
 }
 
+Vertex * Graph::findVertexName(string &name) const {
+    for (auto v : vertexSet)
+        if (v->getStation().getName() == name)
+            return v;
+    return nullptr;
+}
+
 /*
  * Finds the index of the vertex with a given content.
  */

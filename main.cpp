@@ -1,10 +1,12 @@
 #include <iostream>
-#include "include/Menu.h"
+#include "include/Database.h"
 
 using namespace std;
 
 int main() {
-    Menu menu;
-    menu.init();
+    Database d;
+    d.loadStationInfo();
+    d.loadNetworkInfo();
+    d.menu();
     return 0;
 }

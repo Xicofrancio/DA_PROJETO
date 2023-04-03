@@ -29,14 +29,13 @@ class Hash{
 class Database{
 public:
     Database();
+    void menu();
     void loadStationInfo();
     void loadNetworkInfo();
     void stationInfo(std::string name);
     void maxFLow();
 private:
     Graph trainNetwork;
-    std::set<Station> stationsSet;
-    std::set<Network> networkSet;
     unordered_map<std::string,Station> stations;
     unordered_map<Network,double,Hash> networks;
 };
