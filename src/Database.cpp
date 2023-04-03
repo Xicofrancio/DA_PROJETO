@@ -13,33 +13,33 @@ Database::Database(){
     loadNetworkInfo();
 }
 void Database::loadStationInfo() {
-    ifstream station("csv/stations.csv");
-
-    if (station.is_open()) {
-        int count = 0;
-        string line, name, district, municipality, township, linestations, throwaway;
-        getline(station, throwaway);
-        while (getline(station, line)) {
-            stringstream sep(line);
-            getline(sep, name, ',');
-            getline(sep, district, ',');
-            getline(sep, municipality, ',');
-            getline(sep, township, ',');
-            getline(sep, linestations, '\n');
-            Station* station = new Station(name, district, municipality, township, linestations);
-            stationsSet.insert(*station);
-            trainNetwork.addVertex(name);
-            count++;
-        }
-    }else{
-            cout << "stations.csv file not found in csv folder!";
-        }
-
-
+    string name, district, municipality, township, l, line;
+    int count = 0 ;
+    ifstream infile("csv/stations.csv");
+    if(!infile.open()){
+        cout << "Impossivel abrir ficheiro";
     }
+    getline(in, line);
+    while(getline(in,line)){
+        istringstream iss(line);
+        count++;
+        getline(iss,name,',');
+        getline(iss,district,',');
+        getline(iss,municipality,',');
+        getline(iss,township,',');
+        getline(iss,l);
+        Station a = Station(name, district, municipality, township, l);
+        auto iterator = stations.find(name);
+        if(iterator==stations.end()){
+            stations.emplace(name,a);
+            trainNetwork.addVertex(a);
+        }
+    }
+}
 
 
-void Database::readNetwork() {
+
+void Database::loadNetworkInfo() {
     int capacity;
     string staA, staB, service, line;
     double w = 0;
@@ -67,34 +67,6 @@ void Database::readNetwork() {
         }
 
     }
-
-}
-void Database::loadNetworkInfo() {
-
-    string line;
-    int network_count = 0;
-    std::ifstream networkFile;
-    networkFile.open("../resources/network.csv");
-    if (!networkFile.is_open()) {
-        cout << "File not found\n";
-        return;
-    }
-
-    getline(networkFile, line);
-    while (getline(networkFile, line)) {
-        //row.clear();
-        string stationA, stationB, capacity, service;
-        istringstream iss(line);
-        getline(iss, stationA, ',');
-        getline(iss, stationB, ',');
-        getline(iss, capacity, ',');
-        getline(iss, service, '\0');
-
-        Network* network = new Network(stationA, stationB, stoi(capacity), service);
-        networkSet.insert(*network);
-
-    }
-    networkFile.close();
 }
 
 void Database::stationInfo(std::string name) {
