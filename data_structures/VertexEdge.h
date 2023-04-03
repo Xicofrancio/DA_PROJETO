@@ -9,6 +9,7 @@
 #include <limits>
 #include <algorithm>
 #include "MutablePriorityQueue.h"
+#include "../include/Station.h"
 
 class Edge;
 
@@ -18,10 +19,10 @@ class Edge;
 
 class Vertex {
 public:
-    Vertex(std::string name);
+    Vertex(Station station1);
     bool operator<(Vertex & vertex) const; // // required by MutablePriorityQueue
 
-    std::string getName() const;
+    Station getStation() const;
     std::vector<Edge *> getAdj() const;
     bool isVisited() const;
     bool isProcessing() const;
@@ -30,19 +31,19 @@ public:
     Edge *getPath() const;
     std::vector<Edge *> getIncoming() const;
 
-    void setName(std::string name);
+    void setStation(Station station2);
     void setVisited(bool visited);
     void setProcesssing(bool processing);
     void setIndegree(unsigned int indegree);
     void setDist(double dist);
     void setPath(Edge *path);
-    Edge * addEdge(Vertex *dest, double w);
-    bool removeEdge(std::string destName);
+    Edge * addEdge(Vertex *dest, double w, const string& service);
+    bool removeEdge(Station dest);
     void removeOutgoingEdges();
 
     friend class MutablePriorityQueue<Vertex>;
 protected:
-    std::string name;                // identifier
+    Station station;                // identifier
     std::vector<Edge *> adj;  // outgoing edges
 
     // auxiliary fields
@@ -63,10 +64,11 @@ protected:
 
 class Edge {
 public:
-    Edge(Vertex *orig, Vertex *dest, double w);
+    Edge(Vertex *orig, Vertex *dest, double w, const string& service);
 
     Vertex * getDest() const;
     double getWeight() const;
+    string getService() const;
     bool isSelected() const;
     Vertex * getOrig() const;
     Edge *getReverse() const;
@@ -78,6 +80,7 @@ public:
 protected:
     Vertex * dest; // destination vertex
     double weight; // edge weight, can also be used for capacity
+    string service;
 
     // auxiliary fields
     bool selected = false;

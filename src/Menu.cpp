@@ -39,15 +39,9 @@ void Menu::init() {
                 db.stationInfo("Porto Campanhã");
                 break;
             case 2:
-                Graph g;
-
-                vector<Vertex *> vertex = g.getVertexSet();
-                for(auto f: vertex){
-                    cout << f->getName() << endl;
-                }
                 break;
             case 3:
-                db.maxFLow()
+                db.maxFLow();
                 break;
         }
 

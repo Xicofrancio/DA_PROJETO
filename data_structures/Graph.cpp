@@ -13,9 +13,9 @@ std::vector<Vertex *> Graph::getVertexSet() const {
 /*
  * Auxiliary function to find a vertex with a given content.
  */
-Vertex * Graph::findVertex(const std::string &name) const {
+Vertex * Graph::findVertex(Station &station) const {
     for (auto v : vertexSet)
-        if (v->getName() == name)
+        if (v->getStation() == station)
             return v;
     return nullptr;
 }
@@ -23,9 +23,9 @@ Vertex * Graph::findVertex(const std::string &name) const {
 /*
  * Finds the index of the vertex with a given content.
  */
-int Graph::findVertexIdx(const std::string &name) const {
+int Graph::findVertexIdx(Station &station) const {
     for (unsigned i = 0; i < vertexSet.size(); i++)
-        if (vertexSet[i]->getName() == name)
+        if (vertexSet[i]->getStation() == station)
             return i;
     return -1;
 }
@@ -33,10 +33,10 @@ int Graph::findVertexIdx(const std::string &name) const {
  *  Adds a vertex with a given content or info (in) to a graph (this).
  *  Returns true if successful, and false if a vertex with that content already exists.
  */
-bool Graph::addVertex(const std::string &name) {
-    if (findVertex(name) != nullptr)
+bool Graph::addVertex(Station &station) {
+    if (findVertex(station) != nullptr)
         return false;
-    vertexSet.push_back(new Vertex(name));
+    vertexSet.push_back(new Vertex(station));
     return true;
 }
 
@@ -46,23 +46,23 @@ bool Graph::addVertex(const std::string &name) {
  * Returns true if successful, and false if the source or destination vertex does not exist.
  */
 
-bool Graph::addEdge(const std::string &sourc, const std::string &dest, double w, const std::string &service) {
+bool Graph::addEdge(Station &sourc, Station &dest, double w, const std::string &service) {
     auto v1 = findVertex(sourc);
     auto v2 = findVertex(dest);
     if (v1 == nullptr || v2 == nullptr)
         return false;
-    v1->addEdge(v2, w);
+    v1->addEdge(v2, w,service);
     return true;
 }
 
 bool
-Graph::addBidirectionalEdge(const std::string &sourc, const std::string &dest, double w, const std::string &service) {
+Graph::addBidirectionalEdge(Station &sourc,Station &dest, double w, const std::string &service) {
     auto v1 = findVertex(sourc);
     auto v2 = findVertex(dest);
     if (v1 == nullptr || v2 == nullptr)
         return false;
-    auto e1 = v1->addEdge(v2, w);
-    auto e2 = v2->addEdge(v1, w);
+    auto e1 = v1->addEdge(v2, w,service);
+    auto e2 = v2->addEdge(v1, w,service);
     e1->setReverse(e2);
     e2->setReverse(e1);
     return true;

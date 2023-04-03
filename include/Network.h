@@ -7,21 +7,24 @@
 
 #include <string>
 
-class NetWork {
+class Network {
 private:
-    std::string src;
-    std::string dest;
+    std::string stationA;
+    std::string stationB;
     int capacity;
     std::string service;
 public:
-    const std::string &getSrc() const;
-    const std::string &getDest() const;
+    Network(std::string stationA, std::string stationB, int capacity, std::string service) :
+        stationA(stationA), stationB(stationB), capacity(capacity), service(service){};
+    const std::string &getStationA() const;
+    const std::string &getStationB() const;
     const int &getCapacity() const;
     const std::string &getService() const;
-    void setSrc(const std::string src);
-    void setDest(const std::string dest);
+    void setSrc(const std::string stationA);
+    void setDest(const std::string stationB);
     void setCapacity(const int capacity);
     void setService(const std::string service);
+    bool operator==(const Network& a) const;
 };
 
 

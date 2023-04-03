@@ -2,37 +2,42 @@
 // Created by USER on 22/03/2023.
 //
 
-#include "../include/NetWork.h"
+#include "../include/Network.h"
 
 
-std::string const &NetWork::getSrc() const{
-    return src;
+std::string const &Network::getStationA() const{
+    return stationA;
 }
 
-std::string const &NetWork::getDest() const{
-    return dest;
+std::string const &Network::getStationB() const{
+    return stationB;
 }
 
-int const &NetWork::getCapacity() const{
+int const &Network::getCapacity() const{
     return capacity;
 }
 
-std::string const &NetWork::getService() const{
+std::string const &Network::getService() const{
     return service;
 }
 
-void NetWork::setSrc(const std::string src) {
-    this->src = src;
+void Network::setSrc(const std::string stationA) {
+    this->stationA = stationA;
 }
 
-void NetWork::setDest(const std::string dest) {
-    this->dest = dest;
+void Network::setDest(const std::string stationB) {
+    this->stationB = stationB;
 }
 
-void NetWork::setCapacity(const int capacity) {
+void Network::setCapacity(const int capacity) {
     this->capacity = capacity;
 }
 
-void NetWork::setService(const std::string service) {
+void Network::setService(const std::string service) {
     this->service =service;
+}
+
+bool Network::operator==(const Network& a) const{
+    return (stationA == a.getStationA() && stationB == a.getStationB() &&
+            capacity == a.getCapacity() && service == a.getService());
 }
