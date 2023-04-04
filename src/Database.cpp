@@ -155,7 +155,7 @@ void Database::subGraph(){
         } else if (opt == 2) {
             maxFLow();
         } else if (opt == 3) {
-            cout << "Not implemented" << endl;
+            largermaintenancebudget();
         } else if (opt == 4) {
             for (Edge *edge: deleteEdge) {
                 Station s1 = edge->getOrig()->getStation();
@@ -190,44 +190,25 @@ void Database::maxFLow() {
     cout << "Enter the second station: ";
     getline(cin,s2);
 
-    Vertex* s = trainNetwork.findVertexName(s1);
-    Vertex* t = trainNetwork.findVertexName(s2);
 
-    int max = trainNetwork.edmondsKarp(s,t);
+    int max = trainNetwork.edmondsKarp(s1,s2);
     cout << "The maximum number of trains that can simultaneously travel between " <<
     s1 << " and " << s2 << " is " << max << ".\n";
 
 
 }
 
-vector<pair<Station,Station>> Database::mostAmountTrains(){
-    int max = 0;
-    vector<pair<Station,Station>> result;
-    for(auto vertex: trainNetwork.getVertexSet()) vertex->setVisited(false);
-    for(auto vertex: trainNetwork.getVertexSet()){
-        vertex->setVisited(true);
-        for(auto edge: vertex->getAdj()){
-            if(edge->getWeight() > max && !(edge->getDest()->isVisited())){
-                result.clear();
-                max = edge->getWeight();
-                result.push_back(make_pair(edge->getOrig()->getStation(),edge->getDest()->getStation()));
-                continue;
-            }
-            if(edge->getWeight() == max && !(edge->getDest()->isVisited())){
-                result.push_back(make_pair(edge->getOrig()->getStation(),edge->getDest()->getStation()));
-                continue;
-            }
-            edge->getDest()->setVisited(true);
-        }
-    }
+void Database::mostAmountTrains(){
+
+    vector<pair<pair<Station,Station>,int>> result = trainNetwork.mostAmountTrains();
 
     cout << "The pairs of stations that take the most of trains are: " << endl;
     for (auto it = result.begin(); it != result.end(); it++ ){
-        cout << it->first.getName() << " and " << it->second.getName() << endl;
+        cout << it->first.first.getName() << " and " << it->first.second.getName() << endl;
     }
-    return result;
 }
 
+<<<<<<< HEAD
 void Database::maxTrainsminCost() {
     string s1, s2;
     cin.ignore(1, '\n');
@@ -242,3 +223,39 @@ void Database::maxTrainsminCost() {
 
 
 }
+=======
+void Database::largermaintenancebudget(){
+    vector<pair<string,int>> municips2;
+    vector<string> municips;
+    int result;
+
+    int opt;
+    cout << "Enter the top-k stations: ";
+    cin >> opt;
+    for(auto vertex: trainNetwork.getVertexSet()){
+        string name = vertex->getStation().getName();
+        string municip = vertex->getStation().getMunicipality();
+        if(find(municips.begin(),municips.end(),municip) != municips.end()){
+            continue;
+        }
+        municips.push_back(municip);
+        for(auto vertex: trainNetwork.getVertexSet()){
+            string name2 = vertex->getStation().getName();
+            string municip2 = vertex->getStation().getMunicipality();
+            if(municip2 == municip && name2 != name){
+                result += trainNetwork.edmondsKarp(name,name2,municip);
+            }
+        }
+        municips2.push_back(make_pair(municip,result));
+        result = 0;
+    }
+    sort(municips2.begin(), municips2.end(), [](const std::pair<string,int> &left, const std::pair<string,int> &right) {
+        return left.second > right.second;
+    });
+    for(int i = 0;i<opt;i++){
+        cout << municips2[i].first;
+        cout << "\n";
+    }
+}  
+
+>>>>>>> 7ca299e6ec80d39f08036f9fbcfc73cb5bc6f4bc

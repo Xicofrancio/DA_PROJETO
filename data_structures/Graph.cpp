@@ -21,7 +21,7 @@ Vertex * Graph::findVertex(Station &station) const {
     return nullptr;
 }
 
-Vertex * Graph::findVertexName(string &name) const {
+Vertex * Graph::findVertexName(const string &name) const {
     for (auto v : vertexSet)
         if (v->getStation().getName() == name)
             return v;
@@ -100,79 +100,88 @@ Graph::~Graph() {
     deleteMatrix(pathMatrix, vertexSet.size());
 }
 
-void Graph::testAndVisit(std::queue< Vertex*> &q, Edge *e, Vertex *w, double residual) {
-    if (! w->isVisited() && residual > 0) {
-        w->setVisited(true);
-        w->setPath(e);
-        q.push(w);
+
+
+int Graph::edmondsKarp(const string &source,const string &dest, string municip) const{
+    auto s = findVertexName(source);
+    auto t = findVertexName(dest);
+
+    if (s == nullptr || t == nullptr || s == t) {
+        return -1;
     }
+
+    for (auto v: vertexSet) {
+        for (auto e: v->getAdj()) {
+            e->setFlow(0);
+        }
+    }
+
+    int max_flow = 0;
+
+    while (findAugmentingPath(s, t,municip)) {
+        int pathFlow = std::numeric_limits<int>::max();
+
+        for (auto v = t; v != s;) {
+            auto e = v->getPath();
+            if (e->getDest() == v) {
+                pathFlow = std::min(pathFlow, e->getWeight() - e->getFlow());
+                v = e->getOrig();
+            } else {
+                pathFlow = std::min(pathFlow, e->getFlow());
+                v = e->getDest();
+            }
+        }
+
+        // Update the flow in the path
+        for (auto v = t; v != s;) {
+            auto e = v->getPath();
+            if (e->getDest() == v) {
+                e->setFlow(e->getFlow() + pathFlow);
+                v = e->getOrig();
+            } else {
+                e->setFlow(e->getFlow() - pathFlow);
+                v = e->getDest();
+            }
+        }
+
+        max_flow += pathFlow;
+    }
+
+    return (max_flow ? max_flow : -1);
 }
 
-bool Graph::augmentingPath(Vertex *s, Vertex *t) {
-    for(auto vertex : vertexSet) {
-        vertex->setVisited(false);
+bool Graph::findAugmentingPath(Vertex *source, Vertex *dest, string municip) const {
+    for (auto v: vertexSet) {
+        v->setVisited(false);
     }
-    s->setVisited(true);
+
+    source->setVisited(true);
     std::queue<Vertex *> q;
-    q.push(s);
-    while( ! q.empty() && ! t->isVisited()) {
-        auto vertex = q.front();
-        q.pop();
-        for(auto e: vertex->getAdj()) {
-            testAndVisit(q, e, e->getDest(), e->getWeight() - e->getFlow());
-        }
-        for(auto e: vertex->getIncoming()) {
-            testAndVisit(q, e, e->getOrig(), e->getFlow());
-        }
-    }
-    return t->isVisited();
-}
-double Graph::minResidual(Vertex *s, Vertex *t) {
-    double f = INF;
-    for (auto v = t; v != s; ) {
-        auto e = v->getPath();
-        if (e->getDest() == v) {
-            f = std::min(f, e->getWeight() - e->getFlow());
-            v = e->getOrig();
-        }
-        else {
-            f = std::min(f, e->getFlow());
-            v = e->getDest();
-        }
-    }
-    return f;
-}
+    q.push(source);
 
-void Graph::augmentFlow(Vertex *s, Vertex *t, double f) {
-    for (auto v = t; v != s; ) {
-        auto e = v->getPath();
-        double flow = e->getFlow();
-        if (e->getDest() == v) {
-            e->setFlow(flow + f);
-            v = e->getOrig();
-        }
-        else {
-            e->setFlow(flow - f);
-            v = e->getDest();
-        }
-    }
-}
+    while (!q.empty() && !dest->isVisited()) {
+        auto v = q.front(); q.pop();
 
-int Graph::edmondsKarp(Vertex *s, Vertex *t) {
-    for(auto vertex: vertexSet){
-        for(auto edge: vertex->getAdj()){
-            edge->setFlow(0);
+        for (auto e: v->getAdj()) {
+            auto w = e->getDest();
+            if (!w->isVisited() && e->getWeight() - e->getFlow() > 0 && (w->getStation().getMunicipality() == municip || municip == "")) {
+                w->setVisited(true);
+                w->setPath(e);
+                q.push(w);
+            }
+        }
+
+        for (auto e: v->getIncoming()) {
+            auto w = e->getOrig();
+            if (!w->isVisited() && e->getFlow() > 0 && (w->getStation().getMunicipality() == municip || municip == "")) {
+                w->setVisited(true);
+                w->setPath(e);
+                q.push(w);
+            }
         }
     }
-    while(augmentingPath(s,t)){
-        double f = minResidual(s,t);
-        augmentFlow(s,t,f);
-    }
-    int max = 0;
-    for(Edge* e : s->getAdj()){
-        max += e->getFlow();
-    }
-    return max;
+
+    return dest->isVisited();
 }
 
 Edge* Graph::removeBidirectionalEdge(Vertex *s, Vertex *t) {
@@ -186,6 +195,7 @@ Edge* Graph::removeBidirectionalEdge(Vertex *s, Vertex *t) {
     if (s->removeEdge(t->getStation()) && t->removeEdge(s->getStation())) return res;
     else return nullptr;
 }
+
 
 
 
@@ -220,3 +230,37 @@ void Graph::dijkstraShortestPath(Graph &graph, Vertex *startVertex) {
         }
     }
 }
+
+vector<pair<pair<Station,Station>,int>> Graph::mostAmountTrains(){
+    vector<pair<pair<Station,Station>,int>> max_pair;
+    unordered_map<string,int> max_flow;
+    int max_trains = 0;
+
+    for (const auto &source: vertexSet) {
+        for(const auto &dest: vertexSet){
+            string source_n = source->getStation().getName();
+            string dest_n = dest->getStation().getName();
+            int count = -1;
+
+            if(max_flow.find(source_n+dest_n) != max_flow.end()){
+                count = max_flow[source_n+dest_n];
+            }
+            else{
+                count = edmondsKarp(source_n,dest_n);
+
+                max_flow[source_n + dest_n] = count;
+                max_flow[dest_n + source_n] = count;
+            }
+            if(count > max_trains){
+                max_pair.clear();
+                max_pair.push_back(make_pair(make_pair(source->getStation(),dest->getStation()),count));
+                max_trains = count;
+            }
+            else if(count == max_trains){
+                max_pair.push_back(make_pair(make_pair(source->getStation(),dest->getStation()),count));
+            }
+        }
+    }
+    return max_pair;
+}
+>>>>>>> 7ca299e6ec80d39f08036f9fbcfc73cb5bc6f4bc
