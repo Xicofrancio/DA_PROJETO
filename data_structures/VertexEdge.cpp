@@ -146,7 +146,7 @@ Vertex * Edge::getDest() const {
     return this->dest;
 }
 
-double Edge::getWeight() const {
+int Edge::getWeight() const {
     return this->weight;
 }
 
@@ -162,7 +162,7 @@ bool Edge::isSelected() const {
     return this->selected;
 }
 
-double Edge::getFlow() const {
+int Edge::getFlow() const {
     return flow;
 }
 

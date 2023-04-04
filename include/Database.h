@@ -34,8 +34,8 @@ public:
     void loadNetworkInfo();
     void stationInfo(std::string name);
     void maxFLow();
-    vector<pair<Station,Station>> mostAmountTrains();
     void subGraph();
+    void mostAmountTrains();
 private:
     Graph trainNetwork;
     unordered_map<std::string,Station> stations;

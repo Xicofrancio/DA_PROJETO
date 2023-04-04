@@ -8,6 +8,7 @@
 #include <queue>
 #include <limits>
 #include <algorithm>
+#include <unordered_map>
 #include "MutablePriorityQueue.h"
 
 #include "VertexEdge.h"
@@ -19,7 +20,7 @@ public:
     * Auxiliary function to find a vertex with a given ID.
     */
     Vertex *findVertex(Station &station2) const;
-    Vertex *findVertexName(string &station2) const;
+    Vertex *findVertexName(const string &station2) const;
 
     /*
      *  Adds a vertex with a given content or info (in) to a graph (this).
@@ -38,12 +39,10 @@ public:
     int getNumVertex() const;
     std::vector<Vertex *> getVertexSet() const;
 
-    void testAndVisit(std::queue< Vertex*> &q, Edge *e, Vertex *w, double residual);
-    void augmentFlow(Vertex *s, Vertex *t, double f);
-    double minResidual(Vertex *s, Vertex *t);
-    bool augmentingPath(Vertex *s, Vertex *t);
-    int edmondsKarp(Vertex* s, Vertex* t);
+    bool findAugmentingPath(Vertex *source, Vertex *dest) const;
+    int edmondsKarp(const string &source,const string &dest) const;
     Edge* removeBidirectionalEdge(Vertex *s, Vertex *t);
+    vector<pair<pair<Station,Station>,int>> mostAmountTrains();
 protected:
     std::vector<Vertex *> vertexSet;    // vertex set
 

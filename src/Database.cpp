@@ -184,41 +184,21 @@ void Database::maxFLow() {
     cout << "Enter the second station: ";
     getline(cin,s2);
 
-    Vertex* s = trainNetwork.findVertexName(s1);
-    Vertex* t = trainNetwork.findVertexName(s2);
 
-    int max = trainNetwork.edmondsKarp(s,t);
+    int max = trainNetwork.edmondsKarp(s1,s2);
     cout << "The maximum number of trains that can simultaneously travel between " <<
     s1 << " and " << s2 << " is " << max << ".\n";
 
 
 }
 
-vector<pair<Station,Station>> Database::mostAmountTrains(){
-    int max = 0;
-    vector<pair<Station,Station>> result;
-    for(auto vertex: trainNetwork.getVertexSet()) vertex->setVisited(false);
-    for(auto vertex: trainNetwork.getVertexSet()){
-        vertex->setVisited(true);
-        for(auto edge: vertex->getAdj()){
-            if(edge->getWeight() > max && !(edge->getDest()->isVisited())){
-                result.clear();
-                max = edge->getWeight();
-                result.push_back(make_pair(edge->getOrig()->getStation(),edge->getDest()->getStation()));
-                continue;
-            }
-            if(edge->getWeight() == max && !(edge->getDest()->isVisited())){
-                result.push_back(make_pair(edge->getOrig()->getStation(),edge->getDest()->getStation()));
-                continue;
-            }
-            edge->getDest()->setVisited(true);
-        }
-    }
+void Database::mostAmountTrains(){
+
+    vector<pair<pair<Station,Station>,int>> result = trainNetwork.mostAmountTrains();
 
     cout << "The pairs of stations that take the most of trains are: " << endl;
     for (auto it = result.begin(); it != result.end(); it++ ){
-        cout << it->first.getName() << " and " << it->second.getName() << endl;
+        cout << it->first.first.getName() << " and " << it->first.second.getName() << endl;
     }
-    return result;
 }
 
