@@ -101,7 +101,7 @@ Graph::~Graph() {
 
 
 
-int Graph::edmondsKarp(const string &source,const string &dest) const{
+int Graph::edmondsKarp(const string &source,const string &dest, string municip) const{
     auto s = findVertexName(source);
     auto t = findVertexName(dest);
 
@@ -117,7 +117,7 @@ int Graph::edmondsKarp(const string &source,const string &dest) const{
 
     int max_flow = 0;
 
-    while (findAugmentingPath(s, t)) {
+    while (findAugmentingPath(s, t,municip)) {
         int pathFlow = std::numeric_limits<int>::max();
 
         for (auto v = t; v != s;) {
@@ -149,7 +149,7 @@ int Graph::edmondsKarp(const string &source,const string &dest) const{
     return (max_flow ? max_flow : -1);
 }
 
-bool Graph::findAugmentingPath(Vertex *source, Vertex *dest) const {
+bool Graph::findAugmentingPath(Vertex *source, Vertex *dest, string municip) const {
     for (auto v: vertexSet) {
         v->setVisited(false);
     }
@@ -163,7 +163,7 @@ bool Graph::findAugmentingPath(Vertex *source, Vertex *dest) const {
 
         for (auto e: v->getAdj()) {
             auto w = e->getDest();
-            if (!w->isVisited() && e->getWeight() - e->getFlow() > 0) {
+            if (!w->isVisited() && e->getWeight() - e->getFlow() > 0 && (w->getStation().getMunicipality() == municip || municip == "")) {
                 w->setVisited(true);
                 w->setPath(e);
                 q.push(w);
@@ -172,7 +172,7 @@ bool Graph::findAugmentingPath(Vertex *source, Vertex *dest) const {
 
         for (auto e: v->getIncoming()) {
             auto w = e->getOrig();
-            if (!w->isVisited() && e->getFlow() > 0) {
+            if (!w->isVisited() && e->getFlow() > 0 && (w->getStation().getMunicipality() == municip || municip == "")) {
                 w->setVisited(true);
                 w->setPath(e);
                 q.push(w);

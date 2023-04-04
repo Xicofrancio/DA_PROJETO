@@ -149,7 +149,7 @@ void Database::subGraph(){
         } else if (opt == 2) {
             maxFLow();
         } else if (opt == 3) {
-            cout << "Not implemented" << endl;
+            largermaintenancebudget();
         } else if (opt == 4) {
             for (Edge *edge: deleteEdge) {
                 Station s1 = edge->getOrig()->getStation();
@@ -201,4 +201,38 @@ void Database::mostAmountTrains(){
         cout << it->first.first.getName() << " and " << it->first.second.getName() << endl;
     }
 }
+
+void Database::largermaintenancebudget(){
+    vector<pair<string,int>> municips2;
+    vector<string> municips;
+    int result;
+
+    int opt;
+    cout << "Enter the top-k stations: ";
+    cin >> opt;
+    for(auto vertex: trainNetwork.getVertexSet()){
+        string name = vertex->getStation().getName();
+        string municip = vertex->getStation().getMunicipality();
+        if(find(municips.begin(),municips.end(),municip) != municips.end()){
+            continue;
+        }
+        municips.push_back(municip);
+        for(auto vertex: trainNetwork.getVertexSet()){
+            string name2 = vertex->getStation().getName();
+            string municip2 = vertex->getStation().getMunicipality();
+            if(municip2 == municip && name2 != name){
+                result += trainNetwork.edmondsKarp(name,name2,municip);
+            }
+        }
+        municips2.push_back(make_pair(municip,result));
+        result = 0;
+    }
+    sort(municips2.begin(), municips2.end(), [](const std::pair<string,int> &left, const std::pair<string,int> &right) {
+        return left.second > right.second;
+    });
+    for(int i = 0;i<opt;i++){
+        cout << municips2[i].first;
+        cout << "\n";
+    }
+}  
 

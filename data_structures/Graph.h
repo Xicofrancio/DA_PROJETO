@@ -39,8 +39,8 @@ public:
     int getNumVertex() const;
     std::vector<Vertex *> getVertexSet() const;
 
-    bool findAugmentingPath(Vertex *source, Vertex *dest) const;
-    int edmondsKarp(const string &source,const string &dest) const;
+    bool findAugmentingPath(Vertex *source, Vertex *dest,string municip = "") const;
+    int edmondsKarp(const string &source,const string &dest, string municip = "") const;
     Edge* removeBidirectionalEdge(Vertex *s, Vertex *t);
     vector<pair<pair<Station,Station>,int>> mostAmountTrains();
 protected:

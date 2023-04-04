@@ -36,6 +36,7 @@ public:
     void maxFLow();
     void subGraph();
     void mostAmountTrains();
+    void largermaintenancebudget();
 private:
     Graph trainNetwork;
     unordered_map<std::string,Station> stations;
