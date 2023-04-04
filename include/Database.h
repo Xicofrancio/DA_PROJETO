@@ -35,7 +35,6 @@ public:
     void stationInfo(std::string name);
     void maxFLow();
     void maxTrainsminCost();
-    vector<pair<Station,Station>> mostAmountTrains();
     void subGraph();
     void mostAmountTrains();
     void maximumNArriveStation();

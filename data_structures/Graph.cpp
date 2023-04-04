@@ -126,7 +126,7 @@ int Graph::edmondsKarp(const string &source,const string &dest, string municip) 
 
     int max_flow = 0;
 
-    while (findAugmentingPath(s, t,municip)) {
+    while (findAugmentingPath(s, t)) {
         int pathFlow = std::numeric_limits<int>::max();
 
         for (auto v = t; v != s;) {
@@ -158,7 +158,7 @@ int Graph::edmondsKarp(const string &source,const string &dest, string municip) 
     return (max_flow ? max_flow : -1);
 }
 
-bool Graph::findAugmentingPath(Vertex *source, Vertex *dest, string municip) const {
+bool Graph::findAugmentingPath(Vertex *source, Vertex *dest) const {
     for (auto v: vertexSet) {
         v->setVisited(false);
     }
@@ -172,7 +172,7 @@ bool Graph::findAugmentingPath(Vertex *source, Vertex *dest, string municip) con
 
         for (auto e: v->getAdj()) {
             auto w = e->getDest();
-            if (!w->isVisited() && e->getWeight() - e->getFlow() > 0 && (w->getStation().getMunicipality() == municip || municip == "")) {
+            if (!w->isVisited() && e->getWeight() - e->getFlow() > 0 ) {
                 w->setVisited(true);
                 w->setPath(e);
                 q.push(w);
@@ -181,7 +181,7 @@ bool Graph::findAugmentingPath(Vertex *source, Vertex *dest, string municip) con
 
         for (auto e: v->getIncoming()) {
             auto w = e->getOrig();
-            if (!w->isVisited() && e->getFlow() > 0 && (w->getStation().getMunicipality() == municip || municip == "")) {
+            if (!w->isVisited() && e->getFlow() > 0) {
                 w->setVisited(true);
                 w->setPath(e);
                 q.push(w);
@@ -206,7 +206,7 @@ Edge* Graph::removeBidirectionalEdge(Vertex *s, Vertex *t) {
 
 
 
-
+/*
 void Graph::dijkstraShortestPath(Graph &graph, Vertex *startVertex) {
     for (auto v : graph.vertexSet) {
         v->setDist(INF);
@@ -237,7 +237,7 @@ void Graph::dijkstraShortestPath(Graph &graph, Vertex *startVertex) {
             }
         }
     }
-}
+}*/
 
 vector<pair<pair<Station,Station>,int>> Graph::mostAmountTrains(){
     vector<pair<pair<Station,Station>,int>> max_pair;

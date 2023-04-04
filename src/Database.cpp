@@ -81,9 +81,9 @@ void Database::menu() {
         cout << "| 5 - Subgraph                                         |\n";
         cout << "| 6 - The maximum number of trains that can            |\n";
         cout << "| simultaneously arrive at a given station             |\n";
-        cout << "| 6 - Calculate the maximum amount of trains that can  |\n";
+        cout << "| 7 - Calculate the maximum amount of trains that can  |\n";
         cout << "| simultaneously travel between two specific           |\n";
-        cout << "| stations with minimum cost for the company           |\n"
+        cout << "| stations with minimum cost for the company           |\n";
         cout << "| 9 - Settings                                         |\n";
         cout << "| 0 - Exit                                             |\n";
         cout << "--------------------------------------------------------\n";
@@ -109,6 +109,9 @@ void Database::menu() {
                 break;
             case 6:
                 maximumNArriveStation();
+                break;
+            case 7:
+                maxTrainsminCost();
                 break;
             default:
                 cout << "Invalid input!" << endl;
