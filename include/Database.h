@@ -34,9 +34,12 @@ public:
     void loadNetworkInfo();
     void stationInfo(std::string name);
     void maxFLow();
+    void maxTrainsminCost();
+    vector<pair<Station,Station>> mostAmountTrains();
     void subGraph();
     void mostAmountTrains();
     void maximumNArriveStation();
+    void largermaintenancebudget();
 private:
     Graph trainNetwork;
     unordered_map<std::string,Station> stations;

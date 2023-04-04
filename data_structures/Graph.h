@@ -10,6 +10,11 @@
 #include <algorithm>
 #include <unordered_map>
 #include "MutablePriorityQueue.h"
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <limits>
+#include <algorithm>
 
 #include "VertexEdge.h"
 
@@ -40,8 +45,17 @@ public:
     int getNumVertex() const;
     std::vector<Vertex *> getVertexSet() const;
 
-    bool findAugmentingPath(Vertex *source, Vertex *dest) const;
-    int edmondsKarp(const string &source,const string &dest) const;
+<<<<<<< HEAD
+    void testAndVisit(std::queue< Vertex*> &q, Edge *e, Vertex *w, double residual);
+    void augmentFlow(Vertex *s, Vertex *t, double f);
+    double minResidual(Vertex *s, Vertex *t);
+    bool augmentingPath(Vertex *s, Vertex *t);
+    int edmondsKarp(Vertex* s, Vertex* t);
+    void dijkstraShortestPath(Graph &graph, Vertex *startVertex);
+=======
+    bool findAugmentingPath(Vertex *source, Vertex *dest,string municip = "") const;
+    int edmondsKarp(const string &source,const string &dest, string municip = "") const;
+>>>>>>> 7ca299e6ec80d39f08036f9fbcfc73cb5bc6f4bc
     Edge* removeBidirectionalEdge(Vertex *s, Vertex *t);
     vector<pair<pair<Station,Station>,int>> mostAmountTrains();
 protected:

@@ -1,6 +1,7 @@
 // By: Gonçalo Leão
 
 #include "Graph.h"
+#include "MutablePriorityQueue.h"
 
 int Graph::getNumVertex() const {
     return vertexSet.size();
@@ -109,7 +110,7 @@ Graph::~Graph() {
 
 
 
-int Graph::edmondsKarp(const string &source,const string &dest) const{
+int Graph::edmondsKarp(const string &source,const string &dest, string municip) const{
     auto s = findVertexName(source);
     auto t = findVertexName(dest);
 
@@ -125,7 +126,7 @@ int Graph::edmondsKarp(const string &source,const string &dest) const{
 
     int max_flow = 0;
 
-    while (findAugmentingPath(s, t)) {
+    while (findAugmentingPath(s, t,municip)) {
         int pathFlow = std::numeric_limits<int>::max();
 
         for (auto v = t; v != s;) {
@@ -157,7 +158,7 @@ int Graph::edmondsKarp(const string &source,const string &dest) const{
     return (max_flow ? max_flow : -1);
 }
 
-bool Graph::findAugmentingPath(Vertex *source, Vertex *dest) const {
+bool Graph::findAugmentingPath(Vertex *source, Vertex *dest, string municip) const {
     for (auto v: vertexSet) {
         v->setVisited(false);
     }
@@ -171,7 +172,7 @@ bool Graph::findAugmentingPath(Vertex *source, Vertex *dest) const {
 
         for (auto e: v->getAdj()) {
             auto w = e->getDest();
-            if (!w->isVisited() && e->getWeight() - e->getFlow() > 0) {
+            if (!w->isVisited() && e->getWeight() - e->getFlow() > 0 && (w->getStation().getMunicipality() == municip || municip == "")) {
                 w->setVisited(true);
                 w->setPath(e);
                 q.push(w);
@@ -180,7 +181,7 @@ bool Graph::findAugmentingPath(Vertex *source, Vertex *dest) const {
 
         for (auto e: v->getIncoming()) {
             auto w = e->getOrig();
-            if (!w->isVisited() && e->getFlow() > 0) {
+            if (!w->isVisited() && e->getFlow() > 0 && (w->getStation().getMunicipality() == municip || municip == "")) {
                 w->setVisited(true);
                 w->setPath(e);
                 q.push(w);
@@ -201,6 +202,41 @@ Edge* Graph::removeBidirectionalEdge(Vertex *s, Vertex *t) {
     if (res == nullptr) return nullptr;
     if (s->removeEdge(t->getStation()) && t->removeEdge(s->getStation())) return res;
     else return nullptr;
+}
+
+
+
+
+void Graph::dijkstraShortestPath(Graph &graph, Vertex *startVertex) {
+    for (auto v : graph.vertexSet) {
+        v->setDist(INF);
+        v->setPath(nullptr);
+    }
+
+    MutablePriorityQueue<Vertex> queue;
+    startVertex->setDist(0);
+    queue.insert(startVertex);
+
+    while (!queue.empty()) {
+        auto vertex = queue.extractMin();
+        vertex->setVisited(true);
+
+        for (auto edge : vertex->getAdj()) {
+            auto dest = edge->getDest();
+            if (!dest->isVisited()) {
+                auto newDist = vertex->getDist() + edge->getWeight();
+                if (newDist < dest->getDist()) {
+                    dest->setDist(newDist);
+                    dest->setPath(edge);
+                    if (queue.find(dest) != queue.end()) {
+                        queue.decreaseKey(dest);
+                    } else {
+                        queue.insert(dest);
+                    }
+                }
+            }
+        }
+    }
 }
 
 vector<pair<pair<Station,Station>,int>> Graph::mostAmountTrains(){
