@@ -34,6 +34,7 @@ public:
     void loadNetworkInfo();
     void stationInfo(std::string name);
     void maxFLow();
+    void maxTrainsminCost();
     vector<pair<Station,Station>> mostAmountTrains();
     void subGraph();
 private:

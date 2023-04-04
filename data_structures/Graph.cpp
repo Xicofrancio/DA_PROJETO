@@ -1,6 +1,7 @@
 // By: Gonçalo Leão
 
 #include "Graph.h"
+#include "MutablePriorityQueue.h"
 
 int Graph::getNumVertex() const {
     return vertexSet.size();
@@ -184,4 +185,38 @@ Edge* Graph::removeBidirectionalEdge(Vertex *s, Vertex *t) {
     if (res == nullptr) return nullptr;
     if (s->removeEdge(t->getStation()) && t->removeEdge(s->getStation())) return res;
     else return nullptr;
+}
+
+
+
+void Graph::dijkstraShortestPath(Graph &graph, Vertex *startVertex) {
+    for (auto v : graph.vertexSet) {
+        v->setDist(INF);
+        v->setPath(nullptr);
+    }
+
+    MutablePriorityQueue<Vertex> queue;
+    startVertex->setDist(0);
+    queue.insert(startVertex);
+
+    while (!queue.empty()) {
+        auto vertex = queue.extractMin();
+        vertex->setVisited(true);
+
+        for (auto edge : vertex->getAdj()) {
+            auto dest = edge->getDest();
+            if (!dest->isVisited()) {
+                auto newDist = vertex->getDist() + edge->getWeight();
+                if (newDist < dest->getDist()) {
+                    dest->setDist(newDist);
+                    dest->setPath(edge);
+                    if (queue.find(dest) != queue.end()) {
+                        queue.decreaseKey(dest);
+                    } else {
+                        queue.insert(dest);
+                    }
+                }
+            }
+        }
+    }
 }

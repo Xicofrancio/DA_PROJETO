@@ -9,6 +9,11 @@
 #include <limits>
 #include <algorithm>
 #include "MutablePriorityQueue.h"
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <limits>
+#include <algorithm>
 
 #include "VertexEdge.h"
 
@@ -43,6 +48,7 @@ public:
     double minResidual(Vertex *s, Vertex *t);
     bool augmentingPath(Vertex *s, Vertex *t);
     int edmondsKarp(Vertex* s, Vertex* t);
+    void dijkstraShortestPath(Graph &graph, Vertex *startVertex);
     Edge* removeBidirectionalEdge(Vertex *s, Vertex *t);
 protected:
     std::vector<Vertex *> vertexSet;    // vertex set

@@ -138,6 +138,16 @@ void Vertex::deleteEdge(Edge *edge) {
     delete edge;
 }
 
+std::vector<Edge *> Vertex::getOutgoing(Vertex *v) const {
+    std::vector<Edge*> outgoing;
+    for (auto e : v->adj) {
+        if (e->getOrig() == v) {
+            outgoing.push_back(e);
+        }
+    }
+    return outgoing;
+}
+
 /********************** Edge  ****************************/
 
 Edge::Edge(Vertex *orig, Vertex *dest, double w, const string& service): orig(orig), dest(dest), weight(w), service(service){}
@@ -181,3 +191,4 @@ void Edge::setFlow(double flow) {
 string Edge::getService() const {
     return this->service;
 }
+

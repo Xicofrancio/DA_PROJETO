@@ -40,7 +40,7 @@ public:
     Edge * addEdge(Vertex *dest, double w, const string& service);
     bool removeEdge(Station dest);
     void removeOutgoingEdges();
-
+    std::vector<Edge*> getOutgoing(Vertex* v) const;
     friend class MutablePriorityQueue<Vertex>;
 protected:
     Station station;                // identifier

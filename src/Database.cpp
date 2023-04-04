@@ -79,6 +79,9 @@ void Database::menu() {
         cout << "| 4 - Calculate pairs of stations that require the     |\n";
         cout << "| most amount of trains.                               |\n";
         cout << "| 5 - Subgraph                                         |\n";
+        cout << "| 6 - Calculate the maximum amount of trains that can  |\n";
+        cout << "| simultaneously travel between two specific            |\n";
+        cout << "| stations with minimum cost for the company           |\n";
         cout << "| 9 - Settings                                         |\n";
         cout << "| 0 - Exit                                             |\n";
         cout << "--------------------------------------------------------\n";
@@ -101,6 +104,9 @@ void Database::menu() {
                 break;
             case 5:
                 subGraph();
+                break;
+            case 6:
+
                 break;
             default:
                 cout << "Invalid input!" << endl;
@@ -222,3 +228,17 @@ vector<pair<Station,Station>> Database::mostAmountTrains(){
     return result;
 }
 
+void Database::maxTrainsminCost() {
+    string s1, s2;
+    cin.ignore(1, '\n');
+    cout << "Enter the first station: ";
+    getline(cin, s1);
+
+    cout << "Enter the second station: ";
+    getline(cin,s2);
+
+    Vertex* s = trainNetwork.findVertexName(s1);
+    Vertex* t = trainNetwork.findVertexName(s2);
+
+
+}
