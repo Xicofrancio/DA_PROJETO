@@ -43,6 +43,7 @@ public:
     double minResidual(Vertex *s, Vertex *t);
     bool augmentingPath(Vertex *s, Vertex *t);
     int edmondsKarp(Vertex* s, Vertex* t);
+    Edge* removeBidirectionalEdge(Vertex *s, Vertex *t);
 protected:
     std::vector<Vertex *> vertexSet;    // vertex set
 

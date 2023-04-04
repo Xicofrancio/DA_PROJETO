@@ -78,6 +78,7 @@ void Database::menu() {
         cout << "| simultaneously travel between two specific stations. |\n";
         cout << "| 4 - Calculate pairs of stations that require the     |\n";
         cout << "| most amount of trains.                               |\n";
+        cout << "| 5 - Subgraph                                         |\n";
         cout << "| 9 - Settings                                         |\n";
         cout << "| 0 - Exit                                             |\n";
         cout << "--------------------------------------------------------\n";
@@ -98,12 +99,72 @@ void Database::menu() {
             case 4:
                 mostAmountTrains();
                 break;
+            case 5:
+                subGraph();
+                break;
             default:
                 cout << "Invalid input!" << endl;
                 break;
         }
 
     }
+}
+
+void Database::subGraph(){
+    vector<Edge *> deleteEdge;
+
+    while (true) {
+        cout << "--------------------------------------------------------\n";
+        cout << "|                                                      |\n";
+        cout << "| 1 - Which segments would you like to remove?         |\n";
+        cout << "| 2 - Calculate the maximum number of trains that can  |\n";
+        cout << "| simultaneously travel between two specific stations. |\n";
+        cout << "| 3 - Report on the top-k most affected stations.      |\n";
+        cout << "| 4 - Undo changes and go back.                        |\n";
+        cout << "| 9 - Settings                                         |\n";
+        cout << "| 0 - Exit                                             |\n";
+        cout << "--------------------------------------------------------\n";
+
+        int opt;
+        cout << "\nOption: ";
+        cin >> opt;
+
+
+        if (opt == 1) {
+            string s1, s2;
+            cin.ignore(1, '\n');
+            cout << "Enter the first station: ";
+            getline(cin, s1);
+
+            cout << "Enter the second station: ";
+            getline(cin, s2);
+
+            Vertex *s = trainNetwork.findVertexName(s1);
+            Vertex *t = trainNetwork.findVertexName(s2);
+
+            Edge *edge = trainNetwork.removeBidirectionalEdge(s, t);
+            if (edge != nullptr) {
+                deleteEdge.push_back(edge);
+            }
+        } else if (opt == 2) {
+            maxFLow();
+        } else if (opt == 3) {
+            cout << "Not implemented" << endl;
+        } else if (opt == 4) {
+            for (Edge *edge: deleteEdge) {
+                Station s1 = edge->getOrig()->getStation();
+                Station s2 = edge->getDest()->getStation();
+                trainNetwork.addBidirectionalEdge(s1, s2, edge->getWeight(), edge->getService());
+                delete edge;
+            }
+            menu();
+        }
+        else{
+            cout << "Invalid input!" << endl;
+        }
+
+    }
+
 }
 
 void Database::stationInfo(std::string name) {
@@ -158,4 +219,6 @@ vector<pair<Station,Station>> Database::mostAmountTrains(){
     for (auto it = result.begin(); it != result.end(); it++ ){
         cout << it->first.getName() << " and " << it->second.getName() << endl;
     }
+    return result;
 }
+

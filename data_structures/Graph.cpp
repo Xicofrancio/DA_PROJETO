@@ -173,3 +173,15 @@ int Graph::edmondsKarp(Vertex *s, Vertex *t) {
     }
     return max;
 }
+
+Edge* Graph::removeBidirectionalEdge(Vertex *s, Vertex *t) {
+    Edge* res = nullptr;
+    for (Edge* e : s->getAdj()){
+        if (e->getDest() == t){
+            res = new Edge(*e);
+        }
+    }
+    if (res == nullptr) return nullptr;
+    if (s->removeEdge(t->getStation()) && t->removeEdge(s->getStation())) return res;
+    else return nullptr;
+}
