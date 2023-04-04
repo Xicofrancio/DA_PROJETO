@@ -36,6 +36,7 @@ public:
     void maxFLow();
     void subGraph();
     void mostAmountTrains();
+    void maximumNArriveStation();
 private:
     Graph trainNetwork;
     unordered_map<std::string,Station> stations;

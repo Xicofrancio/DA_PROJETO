@@ -27,6 +27,7 @@ public:
      *  Returns true if successful, and false if a vertex with that content already exists.
      */
     bool addVertex(Station &station2);
+    bool removeVertex(Station &station2);
 
     /*
      * Adds an edge to a graph (this), given the contents of the source and
@@ -34,7 +35,7 @@ public:
      * Returns true if successful, and false if the source or destination vertex does not exist.
      */
     bool addEdge(Station &sourc,Station &dest, double w, const std::string &service);
-    bool addBidirectionalEdge(Station &sourc,Station &dest, double w, const std::string &service);
+    bool addBidirectionalEdge(Station &sourc, Station &dest, double w, const std::string &service);
 
     int getNumVertex() const;
     std::vector<Vertex *> getVertexSet() const;

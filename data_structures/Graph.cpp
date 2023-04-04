@@ -47,6 +47,14 @@ bool Graph::addVertex(Station &station) {
     return true;
 }
 
+bool Graph::removeVertex(Station &station2){
+    for(auto it = vertexSet.begin(); it != vertexSet.end(); it++){
+        if((*it)->getStation() == station2){
+            vertexSet.erase(it);
+            break;
+        }
+    }
+}
 /*
  * Adds an edge to a graph (this), given the contents of the source and
  * destination vertices and the edge weight (w).
@@ -63,7 +71,7 @@ bool Graph::addEdge(Station &sourc, Station &dest, double w, const std::string &
 }
 
 bool
-Graph::addBidirectionalEdge(Station &sourc,Station &dest, double w, const std::string &service) {
+Graph::addBidirectionalEdge(Station &sourc, Station &dest, double w, const std::string &service) {
     auto v1 = findVertex(sourc);
     auto v2 = findVertex(dest);
     if (v1 == nullptr || v2 == nullptr)
@@ -227,3 +235,4 @@ vector<pair<pair<Station,Station>,int>> Graph::mostAmountTrains(){
     }
     return max_pair;
 }
+
