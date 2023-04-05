@@ -48,6 +48,14 @@ bool Graph::addVertex(Station &station) {
     return true;
 }
 
+bool Graph::removeVertex(Station &station2){
+    for(auto it = vertexSet.begin(); it != vertexSet.end(); it++){
+        if((*it)->getStation() == station2){
+            vertexSet.erase(it);
+            break;
+        }
+    }
+}
 /*
  * Adds an edge to a graph (this), given the contents of the source and
  * destination vertices and the edge weight (w).
@@ -64,7 +72,7 @@ bool Graph::addEdge(Station &sourc, Station &dest, double w, const std::string &
 }
 
 bool
-Graph::addBidirectionalEdge(Station &sourc,Station &dest, double w, const std::string &service) {
+Graph::addBidirectionalEdge(Station &sourc, Station &dest, double w, const std::string &service) {
     auto v1 = findVertex(sourc);
     auto v2 = findVertex(dest);
     if (v1 == nullptr || v2 == nullptr)
@@ -118,7 +126,7 @@ int Graph::edmondsKarp(const string &source,const string &dest, string municip) 
 
     int max_flow = 0;
 
-    while (findAugmentingPath(s, t,municip)) {
+    while (findAugmentingPath(s, t)) {
         int pathFlow = std::numeric_limits<int>::max();
 
         for (auto v = t; v != s;) {
@@ -150,7 +158,7 @@ int Graph::edmondsKarp(const string &source,const string &dest, string municip) 
     return (max_flow ? max_flow : -1);
 }
 
-bool Graph::findAugmentingPath(Vertex *source, Vertex *dest, string municip) const {
+bool Graph::findAugmentingPath(Vertex *source, Vertex *dest) const {
     for (auto v: vertexSet) {
         v->setVisited(false);
     }
@@ -164,7 +172,7 @@ bool Graph::findAugmentingPath(Vertex *source, Vertex *dest, string municip) con
 
         for (auto e: v->getAdj()) {
             auto w = e->getDest();
-            if (!w->isVisited() && e->getWeight() - e->getFlow() > 0 && (w->getStation().getMunicipality() == municip || municip == "")) {
+            if (!w->isVisited() && e->getWeight() - e->getFlow() > 0 ) {
                 w->setVisited(true);
                 w->setPath(e);
                 q.push(w);
@@ -173,7 +181,7 @@ bool Graph::findAugmentingPath(Vertex *source, Vertex *dest, string municip) con
 
         for (auto e: v->getIncoming()) {
             auto w = e->getOrig();
-            if (!w->isVisited() && e->getFlow() > 0 && (w->getStation().getMunicipality() == municip || municip == "")) {
+            if (!w->isVisited() && e->getFlow() > 0) {
                 w->setVisited(true);
                 w->setPath(e);
                 q.push(w);
@@ -198,7 +206,7 @@ Edge* Graph::removeBidirectionalEdge(Vertex *s, Vertex *t) {
 
 
 
-
+/*
 void Graph::dijkstraShortestPath(Graph &graph, Vertex *startVertex) {
     for (auto v : graph.vertexSet) {
         v->setDist(INF);
@@ -229,7 +237,7 @@ void Graph::dijkstraShortestPath(Graph &graph, Vertex *startVertex) {
             }
         }
     }
-}
+}*/
 
 vector<pair<pair<Station,Station>,int>> Graph::mostAmountTrains(){
     vector<pair<pair<Station,Station>,int>> max_pair;
@@ -263,4 +271,3 @@ vector<pair<pair<Station,Station>,int>> Graph::mostAmountTrains(){
     }
     return max_pair;
 }
->>>>>>> 7ca299e6ec80d39f08036f9fbcfc73cb5bc6f4bc
