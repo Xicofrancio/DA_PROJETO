@@ -1,3 +1,9 @@
+<<<<<<< HEAD
 C:/Users/USER/Desktop/Universidade/2ano/da/DA_PROJETO/cmake-build-debug/CMakeFiles/DA_PROJETO.dir
 C:/Users/USER/Desktop/Universidade/2ano/da/DA_PROJETO/cmake-build-debug/CMakeFiles/edit_cache.dir
 C:/Users/USER/Desktop/Universidade/2ano/da/DA_PROJETO/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+=======
+/Users/oliveira/Documents/GitHub/DA_PROJETO/cmake-build-debug/CMakeFiles/DA_PROJETO.dir
+/Users/oliveira/Documents/GitHub/DA_PROJETO/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/oliveira/Documents/GitHub/DA_PROJETO/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+>>>>>>> fcd56e7adaceb17455fac2d19c6d5b7011cffa85

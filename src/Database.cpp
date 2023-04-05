@@ -79,8 +79,10 @@ void Database::menu() {
         cout << "| 4 - Calculate pairs of stations that require the     |\n";
         cout << "| most amount of trains.                               |\n";
         cout << "| 5 - Subgraph                                         |\n";
-        cout << "| 6 - Calculate the maximum amount of trains that can  |\n";
-        cout << "| simultaneously travel between two specific            |\n";
+        cout << "| 6 - The maximum number of trains that can            |\n";
+        cout << "| simultaneously arrive at a given station             |\n";
+        cout << "| 7 - Calculate the maximum amount of trains that can  |\n";
+        cout << "| simultaneously travel between two specific           |\n";
         cout << "| stations with minimum cost for the company           |\n";
         cout << "| 9 - Settings                                         |\n";
         cout << "| 0 - Exit                                             |\n";
@@ -106,7 +108,10 @@ void Database::menu() {
                 subGraph();
                 break;
             case 6:
-
+                maximumNArriveStation();
+                break;
+            case 7:
+                maxTrainsminCost();
                 break;
             default:
                 cout << "Invalid input!" << endl;
@@ -208,7 +213,31 @@ void Database::mostAmountTrains(){
     }
 }
 
-<<<<<<< HEAD
+void Database::maximumNArriveStation(){
+    string name;
+    cin.ignore(1, '\n');
+    cout << "Enter the station name: ";
+    getline(cin,name);
+
+    Vertex *station = trainNetwork.findVertexName(name);
+
+    Station s = Station("s","","","","");
+    trainNetwork.addVertex(s);
+
+    for(Vertex* vertex: trainNetwork.getVertexSet()){
+        if(vertex->getAdj().size() == 1 && trainNetwork.findAugmentingPath(vertex,station)){
+            Station s2 = vertex->getStation();
+            trainNetwork.addBidirectionalEdge(s,s2,INT32_MAX,"");
+        }
+    }
+
+    int max = trainNetwork.edmondsKarp(s.getName(),name);
+    trainNetwork.removeVertex(s);
+    cout << "The maximum number of trains that can simultaneously arrive at"<< name << "is " << max << "." << endl;
+
+}
+
+
 void Database::maxTrainsminCost() {
     string s1, s2;
     cin.ignore(1, '\n');
@@ -223,7 +252,7 @@ void Database::maxTrainsminCost() {
 
 
 }
-=======
+
 void Database::largermaintenancebudget(){
     vector<pair<string,int>> municips2;
     vector<string> municips;
@@ -258,4 +287,4 @@ void Database::largermaintenancebudget(){
     }
 }  
 
->>>>>>> 7ca299e6ec80d39f08036f9fbcfc73cb5bc6f4bc
+

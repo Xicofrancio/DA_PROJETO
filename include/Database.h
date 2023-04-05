@@ -34,13 +34,10 @@ public:
     void loadNetworkInfo();
     void stationInfo(std::string name);
     void maxFLow();
-<<<<<<< HEAD
     void maxTrainsminCost();
-    vector<pair<Station,Station>> mostAmountTrains();
-=======
->>>>>>> 7ca299e6ec80d39f08036f9fbcfc73cb5bc6f4bc
     void subGraph();
     void mostAmountTrains();
+    void maximumNArriveStation();
     void largermaintenancebudget();
 private:
     Graph trainNetwork;
