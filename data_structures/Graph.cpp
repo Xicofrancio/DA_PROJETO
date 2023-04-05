@@ -206,38 +206,32 @@ Edge* Graph::removeBidirectionalEdge(Vertex *s, Vertex *t) {
 
 
 
-/*
-void Graph::dijkstraShortestPath(Graph &graph, Vertex *startVertex) {
-    for (auto v : graph.vertexSet) {
+
+void Graph::dijkstraShortestPath(Vertex *startVertex) {
+    MutablePriorityQueue<Vertex> q;
+    for (auto v : vertexSet) {
         v->setDist(INF);
         v->setPath(nullptr);
+        if(v!=startVertex) q.insert(v);
     }
-
-    MutablePriorityQueue<Vertex> queue;
     startVertex->setDist(0);
-    queue.insert(startVertex);
-
-    while (!queue.empty()) {
-        auto vertex = queue.extractMin();
-        vertex->setVisited(true);
-
-        for (auto edge : vertex->getAdj()) {
-            auto dest = edge->getDest();
-            if (!dest->isVisited()) {
-                auto newDist = vertex->getDist() + edge->getWeight();
-                if (newDist < dest->getDist()) {
-                    dest->setDist(newDist);
-                    dest->setPath(edge);
-                    if (queue.find(dest) != queue.end()) {
-                        queue.decreaseKey(dest);
-                    } else {
-                        queue.insert(dest);
-                    }
+    while (!q.empty()){
+        Vertex* u = q.extractMin();
+        for(auto v: u->getAdj()){
+            if(v->getDest()->isVisited()==false){
+                double tmpdist = u->getDist() + v->getWeight();
+                if(tmpdist<v->getDest()->getDist()){
+                    v->getDest()->setDist(tmpdist);
+                    v->getDest()->setPath(v);
                 }
             }
+
+
         }
     }
-}*/
+
+
+}
 
 vector<pair<pair<Station,Station>,int>> Graph::mostAmountTrains(){
     vector<pair<pair<Station,Station>,int>> max_pair;

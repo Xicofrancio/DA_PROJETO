@@ -250,6 +250,8 @@ void Database::maxTrainsminCost() {
     Vertex* s = trainNetwork.findVertexName(s1);
     Vertex* t = trainNetwork.findVertexName(s2);
 
+    trainNetwork.dijkstraShortestPath(s);
+
 
 }
 

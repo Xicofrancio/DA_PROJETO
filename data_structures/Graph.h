@@ -51,7 +51,8 @@ public:
     double minResidual(Vertex *s, Vertex *t);
     bool augmentingPath(Vertex *s, Vertex *t);
     int edmondsKarp(Vertex* s, Vertex* t);
-    void dijkstraShortestPath(Graph &graph, Vertex *startVertex);
+    void dijkstraShortestPath(Vertex *startVertex);
+    Vertex getNearest();
     bool findAugmentingPath(Vertex *source, Vertex *dest) const;
     int edmondsKarp(const string &source,const string &dest, string municip = "") const;
 
