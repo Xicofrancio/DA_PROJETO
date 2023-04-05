@@ -204,33 +204,64 @@ Edge* Graph::removeBidirectionalEdge(Vertex *s, Vertex *t) {
     else return nullptr;
 }
 
+std::pair<double,double> Graph::minResidualCapacityCost(Station* source, Station* destiny) {
+    std::pair<double,double> minResidualCapacity = {0,INT_MAX};
+    int price = 0;
+    for (auto station = destiny; station != source;) {
+        Vertex* s = findVertex(reinterpret_cast<Station &>(station));
+        auto railway = s->getPath();
 
+        if (railway->getDest()->getStation() == *station) {
+            price += railway->getService()=="STANDARD" ? 2:4;
+            minResidualCapacity = {price,std::min(reinterpret_cast<int &>(minResidualCapacity.second), railway->getWeight() - railway->getFlow())};
+            *station = railway->getOrig()->getStation();
 
-
-void Graph::dijkstraShortestPath(Vertex *startVertex) {
-    MutablePriorityQueue<Vertex> q;
-    for (auto v : vertexSet) {
-        v->setDist(INF);
-        v->setPath(nullptr);
-        if(v!=startVertex) q.insert(v);
+        }
+        else {
+            minResidualCapacity = {price,std::min(reinterpret_cast<int &>(minResidualCapacity.second), railway->getFlow())};
+            *station = railway->getDest()->getStation();
+        }
     }
-    startVertex->setDist(0);
-    while (!q.empty()){
-        Vertex* u = q.extractMin();
-        for(auto v: u->getAdj()){
-            if(v->getDest()->isVisited()==false){
-                double tmpdist = u->getDist() + v->getWeight();
-                if(tmpdist<v->getDest()->getDist()){
-                    v->getDest()->setDist(tmpdist);
-                    v->getDest()->setPath(v);
-                }
-            }
+    return minResidualCapacity;
+}
 
-
+double Graph::edmondsKarpCost(Station *sourceStation, Station *destinyStation) {
+    for (auto v: vertexSet) {
+        for (auto e: v->getAdj()) {
+            e->setFlow(0);
         }
     }
 
+    double minCost = 0;
+    int i = 0;
+    auto s = findVertexName(sourceStation->getName());
+    auto t = findVertexName(destinyStation->getName());
+    while (findAugmentingPath(s, t)) {
+        std::cout << "Path " << i++ << std::endl;
+        auto result = minResidualCapacityCost(sourceStation, destinyStation);
+        minCost += result.first*result.second;
+        augmentFlow(reinterpret_cast<Vertex *>(sourceStation), reinterpret_cast<Vertex *>(destinyStation), result.second);
+    }
 
+    return minCost;
+}
+
+double Graph::optimalCostTrains(const std::string &source, const std::string &destiny) {
+    auto sourceStation = findVertexName(source);
+    auto destinyStation = findVertexName(destiny);
+    if(sourceStation == nullptr){
+        return -1;
+    }
+
+    if(destinyStation == nullptr){
+        return -1;
+    }
+
+    if(sourceStation == destinyStation){
+        return -1;
+    }
+
+    return edmondsKarpCost(reinterpret_cast<Station *>(sourceStation), reinterpret_cast<Station *>(destinyStation));
 }
 
 vector<pair<pair<Station,Station>,int>> Graph::mostAmountTrains(){

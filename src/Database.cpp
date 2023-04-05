@@ -239,6 +239,7 @@ void Database::maximumNArriveStation(){
 
 
 void Database::maxTrainsminCost() {
+    double maxTrains;
     string s1, s2;
     cin.ignore(1, '\n');
     cout << "Enter the first station: ";
@@ -247,11 +248,9 @@ void Database::maxTrainsminCost() {
     cout << "Enter the second station: ";
     getline(cin,s2);
 
-    Vertex* s = trainNetwork.findVertexName(s1);
-    Vertex* t = trainNetwork.findVertexName(s2);
+    double resultado = trainNetwork.optimalCostTrains(s1, s2);
 
-    trainNetwork.dijkstraShortestPath(s);
-
+    cout << resultado;
 
 }
 
