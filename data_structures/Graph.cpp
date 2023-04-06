@@ -298,3 +298,4 @@ vector<pair<pair<Station,Station>,int>> Graph::mostAmountTrains(){
     }
     return max_pair;
 }
+

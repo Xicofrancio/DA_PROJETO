@@ -158,6 +158,7 @@ void Database::subGraph(){
         } else if (opt == 2) {
             maxFLow();
         } else if (opt == 3) {
+            mostaffectedstations();
         } else if (opt == 4) {
             for (Edge *edge: deleteEdge) {
                 Station s1 = edge->getOrig()->getStation();
@@ -278,6 +279,37 @@ void Database::largermaintenancebudget(){
         cout << municips2[i].first;
         cout << "\n";
     }
-}  
+}
 
+/*
+void Database::mostaffectedstations(){
+    vector<affect> vec;
+    vector<pair<Station,Station>> stat;
+    Graph New(trainNetwork);
+    int opt;
+    cout << "Enter the number of stations: ";
+    cin >> opt;
+
+    for(auto v1: trainNetwork.getVertexSet()){
+        for(auto v2 : trainNetwork.getVertexSet()){
+            if(find(stat.begin(),stat.end(),make_pair(v1->getStation(),v2->getStation())) != stat.end() || find(stat.begin(),stat.end(),make_pair(v2->getStation(),v1->getStation())) != stat.end()){
+                stat.emplace_back(make_pair(v1->getStation(),v2->getStation()));
+                int newflow = trainNetwork.edmondsKarp(v1->getStation().getName(),v2->getStation().getName());
+                int oldflow = New.edmondsKarp(v1->getStation().getName(),v2->getStation().getName());
+                int dif = oldflow-newflow;
+                vec.push_back({v1->getStation(),v2->getStation(),dif});
+            }
+        }
+    }
+    sort(vec.begin(), vec.end(), [](affect &left,affect &right) {
+        return left.dif > right.dif;
+    });
+    cout << "Top " << to_string(opt) <<" affected stations:" << "\n";
+    for(int i = 0;i<opt;i++){
+        cout << vec[i].a.getName() << " " << vec[i].b.getName();
+        cout << "\n";
+    }
+}
+
+ */
 
