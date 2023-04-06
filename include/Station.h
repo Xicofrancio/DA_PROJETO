@@ -7,7 +7,8 @@
 
 
 #include <string>
-
+#include <vector>
+#include "Network.h"
 
 using namespace std;
 

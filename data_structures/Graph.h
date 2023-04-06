@@ -25,7 +25,7 @@ public:
     /*
     * Auxiliary function to find a vertex with a given ID.
     */
-    Vertex *findVertex(Station &station2) const;
+    Vertex *findVertex(Station station2) const;
     Vertex *findVertexName(const string &station2) const;
 
     /*
@@ -49,10 +49,13 @@ public:
 
     void testAndVisit(std::queue< Vertex*> &q, Edge *e, Vertex *w, double residual);
     void augmentFlow(Vertex *s, Vertex *t, double f);
+    bool dijkstra(std::string& source, std::string& dest);
+    void printPath(Station* orig, Station* dest);
     double minResidual(Vertex *s, Vertex *t);
     bool augmentingPath(Vertex *s, Vertex *t);
-    int edmondsKarp(Vertex* s, Vertex* t);
+    double minResidualCapacity(Station* source, Station* destiny);
     double optimalCostTrains(const std::string& source, const std::string& destiny);
+    int edmondsKarp(Vertex* s, Vertex* t);
     bool findAugmentingPath(Vertex *source, Vertex *dest,string municip = "",string district = "") const;
     int edmondsKarp(const string &source,const string &dest, string municip = "",string district = "") const;
     double edmondsKarpCost(Station* sourceStation, Station* destinyStation);

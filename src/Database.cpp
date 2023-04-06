@@ -113,6 +113,7 @@ void Database::menu() {
                 maximumNArriveStation();
                 break;
             case 7:
+
                 maxTrainsminCost();
                 break;
             case 8:
