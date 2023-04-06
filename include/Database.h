@@ -32,7 +32,6 @@ public:
     void menu();
     void loadStationInfo();
     void loadNetworkInfo();
-    void stationInfo(std::string name);
     void maxFLow();
     void maxTrainsminCost();
     void subGraph();

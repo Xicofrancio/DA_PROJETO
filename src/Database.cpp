@@ -72,19 +72,18 @@ void Database::menu() {
         cout << "--------------------------------------------------------\n";
         cout << "|      Welcome to the Railway Network Management       |\n";
         cout << "|                                                      |\n";
-        cout << "| 1 - Show Station info                                |\n";
-        cout << "| 2 - Graph info                                       |\n";
-        cout << "| 3 - Calculate the maximum number of trains that can  |\n";
+        cout << "| 1 - Calculate the maximum number of trains that can  |\n";
         cout << "| simultaneously travel between two specific stations. |\n";
-        cout << "| 4 - Calculate pairs of stations that require the     |\n";
+        cout << "| 2 - Calculate pairs of stations that require the     |\n";
         cout << "| most amount of trains.                               |\n";
-        cout << "| 5 - Subgraph                                         |\n";
-        cout << "| 6 - The maximum number of trains that can            |\n";
+        cout << "| 3 - Calculate where management should assign larger  |\n";
+        cout << "| budgets.                                             |\n";
+        cout << "| 4 - The maximum number of trains that can            |\n";
         cout << "| simultaneously arrive at a given station             |\n";
-        cout << "| 7 - Calculate the maximum amount of trains that can  |\n";
+        cout << "| 5 - Calculate the maximum amount of trains that can  |\n";
         cout << "| simultaneously travel between two specific           |\n";
         cout << "| stations with minimum cost for the company           |\n";
-        cout << "| 9 - Settings                                         |\n";
+        cout << "| 6 - Line failures.                                   |\n";
         cout << "| 0 - Exit                                             |\n";
         cout << "--------------------------------------------------------\n";
 
@@ -93,25 +92,25 @@ void Database::menu() {
         cin >> opt;
 
         switch (opt) {
+            case 0:
+                break;
             case 1:
-                stationInfo("Faro");
-                break;
-            case 2:
-                break;
-            case 3:
                 maxFLow();
                 break;
-            case 4:
+            case 2:
                 mostAmountTrains();
                 break;
-            case 5:
-                subGraph();
+            case 3:
+                largermaintenancebudget();
                 break;
-            case 6:
+            case 4:
                 maximumNArriveStation();
                 break;
-            case 7:
-                maxTrainsminCost();
+            case 5:
+                //to implement
+                break;
+            case 6:
+                subGraph();
                 break;
             default:
                 cout << "Invalid input!" << endl;
@@ -132,7 +131,6 @@ void Database::subGraph(){
         cout << "| simultaneously travel between two specific stations. |\n";
         cout << "| 3 - Report on the top-k most affected stations.      |\n";
         cout << "| 4 - Undo changes and go back.                        |\n";
-        cout << "| 9 - Settings                                         |\n";
         cout << "| 0 - Exit                                             |\n";
         cout << "--------------------------------------------------------\n";
 
@@ -160,7 +158,6 @@ void Database::subGraph(){
         } else if (opt == 2) {
             maxFLow();
         } else if (opt == 3) {
-            largermaintenancebudget();
         } else if (opt == 4) {
             for (Edge *edge: deleteEdge) {
                 Station s1 = edge->getOrig()->getStation();
@@ -172,19 +169,13 @@ void Database::subGraph(){
         }
         else{
             cout << "Invalid input!" << endl;
+            break;
         }
 
     }
 
 }
 
-void Database::stationInfo(std::string name) {
-
-    vector<Vertex*> vertex = trainNetwork.getVertexSet();
-    for(auto f: vertex){
-        cout << "Nome: " << f->getStation().getName() << endl;
-    }
-}
 
 void Database::maxFLow() {
     string s1, s2;
@@ -237,8 +228,9 @@ void Database::maximumNArriveStation(){
 
 }
 
-
+/*
 void Database::maxTrainsminCost() {
+    double maxTrains;
     string s1, s2;
     cin.ignore(1, '\n');
     cout << "Enter the first station: ";
@@ -247,11 +239,12 @@ void Database::maxTrainsminCost() {
     cout << "Enter the second station: ";
     getline(cin,s2);
 
-    Vertex* s = trainNetwork.findVertexName(s1);
-    Vertex* t = trainNetwork.findVertexName(s2);
+    double resultado = trainNetwork.optimalCostTrains(s1, s2);
 
+    cout << resultado;
 
 }
+ */
 
 void Database::largermaintenancebudget(){
     vector<pair<string,int>> municips2;
