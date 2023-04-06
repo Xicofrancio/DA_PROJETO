@@ -158,7 +158,7 @@ void Database::subGraph(){
         } else if (opt == 2) {
             maxFLow();
         } else if (opt == 3) {
-            mostaffectedstations();
+            //mostaffectedstations();
         } else if (opt == 4) {
             for (Edge *edge: deleteEdge) {
                 Station s1 = edge->getOrig()->getStation();
@@ -217,15 +217,25 @@ void Database::maximumNArriveStation(){
     trainNetwork.addVertex(s);
 
     for(Vertex* vertex: trainNetwork.getVertexSet()){
-        if(vertex->getAdj().size() == 1 && trainNetwork.findAugmentingPath(vertex,station)){
-            Station s2 = vertex->getStation();
-            trainNetwork.addBidirectionalEdge(s,s2,INT32_MAX,"");
+        if(!(vertex->getStation().getName() == name) && vertex->getAdj().size() ==1 ){
+            for (auto v : trainNetwork.getVertexSet()){
+                for(auto edge : v->getAdj()){
+                    edge->setFlow(0);
+                }
+            }
+            if(trainNetwork.findAugmentingPath(vertex,station)){
+                Station temp = vertex->getStation();
+                trainNetwork.addBidirectionalEdge(s,temp,numeric_limits<int>::max(),"");
+            }
         }
+
     }
 
     int max = trainNetwork.edmondsKarp(s.getName(),name);
-    trainNetwork.removeVertex(s);
-    cout << "The maximum number of trains that can simultaneously arrive at"<< name << "is " << max << "." << endl;
+    cout << "The maximum number of trains that can simultaneously arrive at "<< name << " is " << max << "." << endl;
+    loadStationInfo();
+    loadNetworkInfo();
+
 
 }
 
