@@ -57,3 +57,4 @@ bool Station::operator==(const Station &s1) const {
            s1.getLine() == line && s1.getMunicipality() == municipality &&
            s1.getTownship() == township;
 }
+

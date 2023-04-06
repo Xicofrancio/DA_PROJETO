@@ -20,10 +20,10 @@
 
 
 class Hash{
-    public:
-        size_t operator()(const Network& n)const{
-            return n.getStationA().length() + n.getStationB().length() + n.getService().length() + n.getCapacity();
-        }
+public:
+    size_t operator()(const Network& n)const{
+        return n.getStationA().length() + n.getStationB().length() + n.getService().length() + n.getCapacity();
+    }
 
 };
 class Database{

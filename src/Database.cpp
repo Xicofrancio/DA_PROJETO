@@ -190,7 +190,7 @@ void Database::maxFLow() {
 
     int max = trainNetwork.edmondsKarp(s1,s2);
     cout << "The maximum number of trains that can simultaneously travel between " <<
-    s1 << " and " << s2 << " is " << max << ".\n";
+         s1 << " and " << s2 << " is " << max << ".\n";
 
 
 }
