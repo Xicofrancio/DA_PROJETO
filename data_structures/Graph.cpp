@@ -299,18 +299,7 @@ void Graph::augmentFlow(Vertex *s, Vertex *t, double f) {
             v = e->getDest();
         }}}
 
-Graph::Graph(Graph* copy){
-    for(auto v : copy->vertexSet){
-        Station s = v->getStation();
-        this->addVertex(s);
-    }
-    for(auto v: copy->vertexSet) for(auto e: v->getAdj()){
-        Station origin = e->getOrig()->getStation();
-        Station dest = e->getDest()->getStation();
-        this->addBidirectionalEdge(origin,dest,e->getWeight(),e->getService());
 
-    }
-}
 
 bool Graph::dijkstra(std::string& source, std::string& dest) {
 

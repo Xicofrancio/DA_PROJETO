@@ -21,7 +21,7 @@
 class Graph {
 public:
     ~Graph();
-    Graph(Graph* copy);
+
     /*
     * Auxiliary function to find a vertex with a given ID.
     */
