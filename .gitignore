@@ -5,3 +5,9 @@ cmake-build-debug/Testing
 cmake-build-debug/cmake_install.cmake
 .idea/workspace.xml
 
+cmake-build-debug/Testing/Temporary/LastTest.log
+cmake-build-debug/DA_PROJETO.exe
+*.json
+cmake-build-debug/.cmake/api/v1/reply/index-2023-04-05T14-26-11-0442.json
+cmake-build-debug/.cmake/api/v1/reply/index-2023-04-05T14-26-11-0442.json
+cmake-build-debug/Testing/Temporary/LastTest.log

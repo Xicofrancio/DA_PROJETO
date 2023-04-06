@@ -52,9 +52,11 @@ bool Graph::removeVertex(Station &station2){
     for(auto it = vertexSet.begin(); it != vertexSet.end(); it++){
         if((*it)->getStation() == station2){
             vertexSet.erase(it);
+            return true;
             break;
         }
     }
+    return false;
 }
 /*
  * Adds an edge to a graph (this), given the contents of the source and
@@ -208,7 +210,7 @@ std::pair<double,double> Graph::minResidualCapacityCost(Station* source, Station
     std::pair<double,double> minResidualCapacity = {0,INT_MAX};
     int price = 0;
     for (auto station = destiny; station != source;) {
-        Vertex* s = findVertex(reinterpret_cast<Station &>(station));
+        Vertex* s = findVertex(reinterpret_cast<Station &>(*station));
         auto railway = s->getPath();
 
         if (railway->getDest()->getStation() == *station) {
@@ -240,7 +242,10 @@ double Graph::edmondsKarpCost(Station *sourceStation, Station *destinyStation) {
         std::cout << "Path " << i++ << std::endl;
         auto result = minResidualCapacityCost(sourceStation, destinyStation);
         minCost += result.first*result.second;
-        augmentFlow(reinterpret_cast<Vertex *>(sourceStation), reinterpret_cast<Vertex *>(destinyStation), result.second);
+        Vertex* a = findVertex(*sourceStation);
+        Vertex* d = findVertex(*destinyStation);
+        double res = result.second;
+        augmentFlow(a, d, res);
     }
 
     return minCost;
@@ -295,4 +300,18 @@ vector<pair<pair<Station,Station>,int>> Graph::mostAmountTrains(){
         }
     }
     return max_pair;
+}
+
+void Graph::augmentFlow(Vertex *s, Vertex *t, double f) {
+    for (auto v = t; v != s; ) {
+        auto e = v->getPath();
+        double flow = e->getFlow();
+        if (e->getDest() == v) {
+            e->setFlow(flow + f);
+            v = e->getOrig();
+        } else {
+            e->setFlow(flow - f);
+            v = e->getDest();
+        }
+    }
 }
