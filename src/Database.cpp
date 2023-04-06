@@ -84,6 +84,8 @@ void Database::menu() {
         cout << "| 7 - Calculate the maximum amount of trains that can  |\n";
         cout << "| simultaneously travel between two specific           |\n";
         cout << "| stations with minimum cost for the company           |\n";
+        cout << "| 8 - Calculate where should management assign         |\n";
+        cout << "| larger budgets                                       |\n";
         cout << "| 9 - Settings                                         |\n";
         cout << "| 0 - Exit                                             |\n";
         cout << "--------------------------------------------------------\n";
@@ -113,6 +115,8 @@ void Database::menu() {
             case 7:
                 maxTrainsminCost();
                 break;
+            case 8:
+                largermaintenancebudget();
             default:
                 cout << "Invalid input!" << endl;
                 break;
@@ -160,7 +164,7 @@ void Database::subGraph(){
         } else if (opt == 2) {
             maxFLow();
         } else if (opt == 3) {
-            largermaintenancebudget();
+            mostaffectedstations();
         } else if (opt == 4) {
             for (Edge *edge: deleteEdge) {
                 Station s1 = edge->getOrig()->getStation();
@@ -256,11 +260,13 @@ void Database::maxTrainsminCost() {
 
 void Database::largermaintenancebudget(){
     vector<pair<string,int>> municips2;
+    vector<pair<string,int>> districts2;
     vector<string> municips;
+    vector<string> districts;
     int result;
 
     int opt;
-    cout << "Enter the top-k stations: ";
+    cout << "Enter the top-k municipalities and districts: ";
     cin >> opt;
     for(auto vertex: trainNetwork.getVertexSet()){
         string name = vertex->getStation().getName();
@@ -282,10 +288,66 @@ void Database::largermaintenancebudget(){
     sort(municips2.begin(), municips2.end(), [](const std::pair<string,int> &left, const std::pair<string,int> &right) {
         return left.second > right.second;
     });
+    for(auto vertex: trainNetwork.getVertexSet()){
+        string name = vertex->getStation().getName();
+        string district = vertex->getStation().getDistrict();
+        if(find(districts.begin(),districts.end(),district) != districts.end()){
+            continue;
+        }
+        districts.push_back(district);
+        for(auto vertex: trainNetwork.getVertexSet()){
+            string name2 = vertex->getStation().getName();
+            string district2 = vertex->getStation().getDistrict();
+            if(district2 == district && name2 != name){
+                result += trainNetwork.edmondsKarp(name,name2,district);
+            }
+        }
+        districts2.push_back(make_pair(district,result));
+        result = 0;
+    }
+    sort(districts2.begin(), districts2.end(), [](const std::pair<string,int> &left, const std::pair<string,int> &right) {
+        return left.second > right.second;
+    });
+    cout << "Top " << to_string(opt) <<" Municipalities:" << "\n";
     for(int i = 0;i<opt;i++){
         cout << municips2[i].first;
         cout << "\n";
     }
-}  
+    cout << "\n";
+    cout << "Top " << to_string(opt) <<" Districts:" << "\n";
+    for(int i = 0;i<opt;i++){
+        cout << districts2[i].first;
+        cout << "\n";
+    }
+}
+
+void Database::mostaffectedstations(){
+    vector<affect> vec;
+    vector<pair<Station,Station>> stat;
+    Graph New(trainNetwork);
+    int opt;
+    cout << "Enter the number of stations: ";
+    cin >> opt;
+
+    for(auto v1: trainNetwork.getVertexSet()){
+        for(auto v2 : trainNetwork.getVertexSet()){
+            if(find(stat.begin(),stat.end(),make_pair(v1->getStation(),v2->getStation())) != stat.end() || find(stat.begin(),stat.end(),make_pair(v2->getStation(),v1->getStation())) != stat.end()){
+                stat.emplace_back(make_pair(v1->getStation(),v2->getStation()));
+                int newflow = trainNetwork.edmondsKarp(v1->getStation().getName(),v2->getStation().getName());
+                int oldflow = New.edmondsKarp(v1->getStation().getName(),v2->getStation().getName());
+                int dif = oldflow-newflow;
+                vec.push_back({v1->getStation(),v2->getStation(),dif});
+            }
+        }
+    }
+    sort(vec.begin(), vec.end(), [](affect &left,affect &right) {
+        return left.dif > right.dif;
+    });
+    cout << "Top " << to_string(opt) <<" affected stations:" << "\n";
+    for(int i = 0;i<opt;i++){
+        cout << vec[i].a.getName() << " " << vec[i].b.getName();
+        cout << "\n";
+    }
+}
 
 

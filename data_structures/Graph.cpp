@@ -110,7 +110,7 @@ Graph::~Graph() {
 
 
 
-int Graph::edmondsKarp(const string &source,const string &dest, string municip) const{
+int Graph::edmondsKarp(const string &source,const string &dest, string municip, string district) const{
     auto s = findVertexName(source);
     auto t = findVertexName(dest);
 
@@ -126,7 +126,7 @@ int Graph::edmondsKarp(const string &source,const string &dest, string municip) 
 
     int max_flow = 0;
 
-    while (findAugmentingPath(s, t)) {
+    while (findAugmentingPath(s, t,municip,district)) {
         int pathFlow = std::numeric_limits<int>::max();
 
         for (auto v = t; v != s;) {
@@ -158,7 +158,7 @@ int Graph::edmondsKarp(const string &source,const string &dest, string municip) 
     return (max_flow ? max_flow : -1);
 }
 
-bool Graph::findAugmentingPath(Vertex *source, Vertex *dest) const {
+bool Graph::findAugmentingPath(Vertex *source, Vertex *dest,string municip, string district) const {
     for (auto v: vertexSet) {
         v->setVisited(false);
     }
@@ -172,7 +172,7 @@ bool Graph::findAugmentingPath(Vertex *source, Vertex *dest) const {
 
         for (auto e: v->getAdj()) {
             auto w = e->getDest();
-            if (!w->isVisited() && e->getWeight() - e->getFlow() > 0 ) {
+            if (!w->isVisited() && e->getWeight() - e->getFlow() > 0 && (( w->getStation().getMunicipality() == municip || w->getStation().getDistrict() == district) || (municip == "" && district == ""))) {
                 w->setVisited(true);
                 w->setPath(e);
                 q.push(w);
@@ -181,7 +181,7 @@ bool Graph::findAugmentingPath(Vertex *source, Vertex *dest) const {
 
         for (auto e: v->getIncoming()) {
             auto w = e->getOrig();
-            if (!w->isVisited() && e->getFlow() > 0) {
+            if (!w->isVisited() && e->getFlow() > 0 && (( w->getStation().getMunicipality() == municip || w->getStation().getDistrict() == district) || (municip == "" && district == ""))) {
                 w->setVisited(true);
                 w->setPath(e);
                 q.push(w);
@@ -240,7 +240,6 @@ double Graph::edmondsKarpCost(Station *sourceStation, Station *destinyStation) {
         std::cout << "Path " << i++ << std::endl;
         auto result = minResidualCapacityCost(sourceStation, destinyStation);
         minCost += result.first*result.second;
-        augmentFlow(reinterpret_cast<Vertex *>(sourceStation), reinterpret_cast<Vertex *>(destinyStation), result.second);
     }
 
     return minCost;
@@ -295,4 +294,16 @@ vector<pair<pair<Station,Station>,int>> Graph::mostAmountTrains(){
         }
     }
     return max_pair;
+}
+
+Graph::Graph(Graph* copy){
+    for(auto v : copy->vertexSet){
+        Station s = v->getStation();
+        this->addVertex(s);
+    }
+    for(auto v: copy->vertexSet) for(auto e: v->getAdj()){
+        Station origin = e->getOrig()->getStation();
+        Station dest = e->getDest()->getStation();
+        this->addBidirectionalEdge(origin,dest,e->getWeight(),e->getService());
+    }
 }
