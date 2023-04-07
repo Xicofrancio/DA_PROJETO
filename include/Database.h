@@ -43,6 +43,8 @@ private:
     Graph trainNetwork;
     unordered_map<std::string,Station> stations;
     unordered_map<Network,double,Hash> networks;
+
+    void stationInfo(string name);
 };
 
 struct affect

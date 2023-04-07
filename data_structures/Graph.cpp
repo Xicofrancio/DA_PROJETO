@@ -52,9 +52,11 @@ bool Graph::removeVertex(Station &station2){
     for(auto it = vertexSet.begin(); it != vertexSet.end(); it++){
         if((*it)->getStation() == station2){
             vertexSet.erase(it);
+            return true;
             break;
         }
     }
+    return false;
 }
 /*
  * Adds an edge to a graph (this), given the contents of the source and
@@ -379,3 +381,44 @@ void Graph::dijkstra(string first, string second) {
         }
     }
 }
+
+/*
+void Graph::dijkstra(string first, string second) {
+    std::priority_queue<Vertex*, std::vector<Vertex*>, NodeComparator> pq;
+    double flow = numeric_limits<int>::max();
+    Vertex* startNode = findVertexName(first);
+    startNode->setCost(0.0);
+    startNode->addPathForCost(first);
+    pq.push(startNode);
+    while (!pq.empty()) {
+        Vertex* currentVertex = pq.top();
+        pq.pop();
+        if (currentVertex->isVisited()) {
+            continue;
+        }
+        currentVertex->setVisited(true);
+        if(currentVertex == findVertexName(second)) {
+            std::cout << "Shortest path from " << first << " to " << second << " is:";
+            for (auto node : currentVertex->getPathForCost()) {
+                std::cout << " " << node<<endl;
+
+            }
+            std::cout << " (cost without flow = " << currentVertex->getCost()<<")" << std::endl;
+            return;
+        }
+        for (auto edge : currentVertex->getAdj()) {
+            Vertex* nextNode = edge->getDest();
+            if (!nextNode->isVisited()) {
+                double newCost = currentVertex->getCost() + edge->getCost();
+                if (newCost < nextNode->getCost()) {
+                    // found a shorter path to nextNode, update its cost and path
+                    nextNode->setCost(newCost);
+                    nextNode->setPathForCost(currentVertex->getPathForCost());
+                    nextNode->addPathForCost(currentVertex->getStation().getName());
+                    pq.push(nextNode);
+                }
+            }
+        }
+    }
+}
+ */

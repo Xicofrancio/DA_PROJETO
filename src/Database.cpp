@@ -250,7 +250,7 @@ void Database::maximumNArriveStation(){
             }
             if(trainNetwork.findAugmentingPath(vertex,station)){
                 Station temp = vertex->getStation();
-                trainNetwork.addBidirectionalEdge(s,temp,numeric_limits<int>::max(),"");
+                trainNetwork.addBidirectionalEdge(s,temp,numeric_limits<int>::max(),"",numeric_limits<int>::max());
             }
         }
 
@@ -264,7 +264,7 @@ void Database::maximumNArriveStation(){
 
 }
 
-/*
+
 void Database::maxTrainsminCost() {
     double maxTrains;
     string s1, s2;
@@ -280,7 +280,7 @@ void Database::maxTrainsminCost() {
 
 
 }
- */
+
 
 void Database::largermaintenancebudget(){
     vector<pair<string,int>> municips2;
