@@ -14,7 +14,7 @@ std::vector<Vertex *> Graph::getVertexSet() const {
 /*
  * Auxiliary function to find a vertex with a given content.
  */
-Vertex * Graph::findVertex(Station station) const {
+Vertex * Graph::findVertex(Station &station) const {
     for (auto v : vertexSet)
         if (v->getStation() == station)
             return v;
@@ -52,11 +52,9 @@ bool Graph::removeVertex(Station &station2){
     for(auto it = vertexSet.begin(); it != vertexSet.end(); it++){
         if((*it)->getStation() == station2){
             vertexSet.erase(it);
-            return true;
             break;
         }
     }
-    return false;
 }
 /*
  * Adds an edge to a graph (this), given the contents of the source and
@@ -112,7 +110,7 @@ Graph::~Graph() {
 
 
 
-int Graph::edmondsKarp(const string &source,const string &dest, string municip, string district) const{
+int Graph::edmondsKarp(const string &source,const string &dest, string municip) const{
     auto s = findVertexName(source);
     auto t = findVertexName(dest);
 
@@ -128,7 +126,7 @@ int Graph::edmondsKarp(const string &source,const string &dest, string municip, 
 
     int max_flow = 0;
 
-    while (findAugmentingPath(s, t,municip,district)) {
+    while (findAugmentingPath(s, t)) {
         int pathFlow = std::numeric_limits<int>::max();
 
         for (auto v = t; v != s;) {
@@ -160,7 +158,7 @@ int Graph::edmondsKarp(const string &source,const string &dest, string municip, 
     return (max_flow ? max_flow : -1);
 }
 
-bool Graph::findAugmentingPath(Vertex *source, Vertex *dest,string municip, string district) const {
+bool Graph::findAugmentingPath(Vertex *source, Vertex *dest) const {
     for (auto v: vertexSet) {
         v->setVisited(false);
     }
@@ -174,7 +172,7 @@ bool Graph::findAugmentingPath(Vertex *source, Vertex *dest,string municip, stri
 
         for (auto e: v->getAdj()) {
             auto w = e->getDest();
-            if (!w->isVisited() && e->getWeight() - e->getFlow() > 0 && (( w->getStation().getMunicipality() == municip || w->getStation().getDistrict() == district) || (municip == "" && district == ""))) {
+            if (!w->isVisited() && e->getWeight() - e->getFlow() > 0 ) {
                 w->setVisited(true);
                 w->setPath(e);
                 q.push(w);
@@ -183,7 +181,7 @@ bool Graph::findAugmentingPath(Vertex *source, Vertex *dest,string municip, stri
 
         for (auto e: v->getIncoming()) {
             auto w = e->getOrig();
-            if (!w->isVisited() && e->getFlow() > 0 && (( w->getStation().getMunicipality() == municip || w->getStation().getDistrict() == district) || (municip == "" && district == ""))) {
+            if (!w->isVisited() && e->getFlow() > 0) {
                 w->setVisited(true);
                 w->setPath(e);
                 q.push(w);
@@ -205,27 +203,29 @@ Edge* Graph::removeBidirectionalEdge(Vertex *s, Vertex *t) {
     if (s->removeEdge(t->getStation()) && t->removeEdge(s->getStation())) return res;
     else return nullptr;
 }
-
-double Graph::minResidualCapacity(Station* source, Station* destiny) {
-    double minResidualCapacity = INT_MAX;
+/*
+std::pair<double,double> Graph::minResidualCapacityCost(Station* source, Station* destiny) {
+    std::pair<double,double> minResidualCapacity = {0,INT_MAX};
+    int price = 0;
     for (auto station = destiny; station != source;) {
-        Vertex* s = findVertex(*station);
+        Vertex* s = findVertex(reinterpret_cast<Station &>(station));
         auto railway = s->getPath();
-        if (railway->getDest() == findVertex(*station)) {
-            double res = railway->getWeight() - railway->getFlow();
-            minResidualCapacity = std::min(minResidualCapacity, res);
-            Station station = railway->getOrig()->getStation();
+
+        if (railway->getDest()->getStation() == *station) {
+            price += railway->getService()=="STANDARD" ? 2:4;
+            minResidualCapacity = {price,std::min(reinterpret_cast<int &>(minResidualCapacity.second), railway->getWeight() - railway->getFlow())};
+            *station = railway->getOrig()->getStation();
+
         }
         else {
-            double es = railway->getFlow();
-            minResidualCapacity = std::min(minResidualCapacity, es);
-            Station station = railway->getDest()->getStation();
+            minResidualCapacity = {price,std::min(reinterpret_cast<int &>(minResidualCapacity.second), railway->getFlow())};
+            *station = railway->getDest()->getStation();
         }
     }
     return minResidualCapacity;
 }
-
-
+*/
+/*
 double Graph::edmondsKarpCost(Station *sourceStation, Station *destinyStation) {
     for (auto v: vertexSet) {
         for (auto e: v->getAdj()) {
@@ -239,20 +239,33 @@ double Graph::edmondsKarpCost(Station *sourceStation, Station *destinyStation) {
     auto t = findVertexName(destinyStation->getName());
     while (findAugmentingPath(s, t)) {
         std::cout << "Path " << i++ << std::endl;
-        auto result = minResidualCapacity(sourceStation, destinyStation);
-        minCost += result;
-        Vertex* a = findVertex(*sourceStation);
-        Vertex* d = findVertex(*destinyStation);
-        double res = result;
-        augmentFlow(a, d, res);
-
+        auto result = minResidualCapacityCost(sourceStation, destinyStation);
+        minCost += result.first*result.second;
+        augmentFlow(reinterpret_cast<Vertex *>(sourceStation), reinterpret_cast<Vertex *>(destinyStation), result.second);
     }
 
     return minCost;
 }
+ */
+/*
+double Graph::optimalCostTrains(const std::string &source, const std::string &destiny) {
+    auto sourceStation = findVertexName(source);
+    auto destinyStation = findVertexName(destiny);
+    if(sourceStation == nullptr){
+        return -1;
+    }
 
+    if(destinyStation == nullptr){
+        return -1;
+    }
 
+    if(sourceStation == destinyStation){
+        return -1;
+    }
 
+    return edmondsKarpCost(reinterpret_cast<Station *>(sourceStation), reinterpret_cast<Station *>(destinyStation));
+}
+*/
 vector<pair<pair<Station,Station>,int>> Graph::mostAmountTrains(){
     vector<pair<pair<Station,Station>,int>> max_pair;
     unordered_map<string,int> max_flow;

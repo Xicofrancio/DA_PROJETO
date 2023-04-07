@@ -20,10 +20,10 @@
 
 
 class Hash{
-    public:
-        size_t operator()(const Network& n)const{
-            return n.getStationA().length() + n.getStationB().length() + n.getService().length() + n.getCapacity();
-        }
+public:
+    size_t operator()(const Network& n)const{
+        return n.getStationA().length() + n.getStationB().length() + n.getService().length() + n.getCapacity();
+    }
 
 };
 class Database{
@@ -32,7 +32,6 @@ public:
     void menu();
     void loadStationInfo();
     void loadNetworkInfo();
-    void stationInfo(std::string name);
     void maxFLow();
     void maxTrainsminCost();
     void subGraph();
@@ -52,6 +51,7 @@ struct affect
     Station b;
     int dif;
 };
+
 
 
 #endif //DA_PROJETO_DATABASE_H

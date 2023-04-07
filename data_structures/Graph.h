@@ -21,11 +21,10 @@
 class Graph {
 public:
     ~Graph();
-
     /*
     * Auxiliary function to find a vertex with a given ID.
     */
-    Vertex *findVertex(Station station2) const;
+    Vertex *findVertex(Station &station2) const;
     Vertex *findVertexName(const string &station2) const;
 
     /*
@@ -53,11 +52,10 @@ public:
     void printPath(Station* orig, Station* dest);
     double minResidual(Vertex *s, Vertex *t);
     bool augmentingPath(Vertex *s, Vertex *t);
-    double minResidualCapacity(Station* source, Station* destiny);
-    double optimalCostTrains(const std::string& source, const std::string& destiny);
     int edmondsKarp(Vertex* s, Vertex* t);
-    bool findAugmentingPath(Vertex *source, Vertex *dest,string municip = "",string district = "") const;
-    int edmondsKarp(const string &source,const string &dest, string municip = "",string district = "") const;
+    double optimalCostTrains(const std::string& source, const std::string& destiny);
+    bool findAugmentingPath(Vertex *source, Vertex *dest) const;
+    int edmondsKarp(const string &source,const string &dest, string municip = "") const;
     double edmondsKarpCost(Station* sourceStation, Station* destinyStation);
     std::pair<double,double> minResidualCapacityCost(Station* source, Station* destiny);
     Edge* removeBidirectionalEdge(Vertex *s, Vertex *t);

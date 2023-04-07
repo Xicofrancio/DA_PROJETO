@@ -32,7 +32,6 @@ void Database::loadStationInfo() {
         if (it == stations.end()) {
             stations.emplace(name, a);
             trainNetwork.addVertex(a);
-
         }
 
     }
@@ -40,7 +39,6 @@ void Database::loadStationInfo() {
 
 void Database::loadNetworkInfo() {
     int capacity;
-    int id = 0;
     string staA, staB, service, line;
     double w = 0;
     ifstream in;
@@ -105,22 +103,25 @@ void Database::menu() {
         cin >> opt;
 
         switch (opt) {
+            case 0:
+                break;
             case 1:
-                stationInfo("Faro");
-                break;
-            case 2:
-                break;
-            case 3:
                 maxFLow();
                 break;
-            case 4:
+            case 2:
                 mostAmountTrains();
                 break;
+            case 3:
+                largermaintenancebudget();
+                break;
+            case 4:
+                maximumNArriveStation();
+                break;
             case 5:
-                subGraph();
+                //to implement
                 break;
             case 6:
-                maximumNArriveStation();
+                subGraph();
                 break;
             case 7:
 
@@ -175,7 +176,7 @@ void Database::subGraph(){
         } else if (opt == 2) {
             maxFLow();
         } else if (opt == 3) {
-            mostaffectedstations();
+            //mostaffectedstations();
         } else if (opt == 4) {
             for (Edge *edge: deleteEdge) {
                 Station s1 = edge->getOrig()->getStation();
@@ -187,6 +188,7 @@ void Database::subGraph(){
         }
         else{
             cout << "Invalid input!" << endl;
+            break;
         }
 
     }
@@ -240,19 +242,29 @@ void Database::maximumNArriveStation(){
     trainNetwork.addVertex(s);
 
     for(Vertex* vertex: trainNetwork.getVertexSet()){
-        if(vertex->getAdj().size() == 1 && trainNetwork.findAugmentingPath(vertex,station)){
-            Station s2 = vertex->getStation();
-            trainNetwork.addBidirectionalEdge(s,s2,INT32_MAX,"", numeric_limits<int>::max());
+        if(!(vertex->getStation().getName() == name) && vertex->getAdj().size() ==1 ){
+            for (auto v : trainNetwork.getVertexSet()){
+                for(auto edge : v->getAdj()){
+                    edge->setFlow(0);
+                }
+            }
+            if(trainNetwork.findAugmentingPath(vertex,station)){
+                Station temp = vertex->getStation();
+                trainNetwork.addBidirectionalEdge(s,temp,numeric_limits<int>::max(),"");
+            }
         }
+
     }
 
     int max = trainNetwork.edmondsKarp(s.getName(),name);
-    trainNetwork.removeVertex(s);
-    cout << "The maximum number of trains that can simultaneously arrive at"<< name << "is " << max << "." << endl;
+    cout << "The maximum number of trains that can simultaneously arrive at "<< name << " is " << max << "." << endl;
+    loadStationInfo();
+    loadNetworkInfo();
+
 
 }
 
-
+/*
 void Database::maxTrainsminCost() {
     double maxTrains;
     string s1, s2;
@@ -266,17 +278,17 @@ void Database::maxTrainsminCost() {
     trainNetwork.dijkstra(s1, s2);
 
 
+
 }
+ */
 
 void Database::largermaintenancebudget(){
     vector<pair<string,int>> municips2;
-    vector<pair<string,int>> districts2;
     vector<string> municips;
-    vector<string> districts;
     int result;
 
     int opt;
-    cout << "Enter the top-k municipalities and districts: ";
+    cout << "Enter the top-k stations: ";
     cin >> opt;
     for(auto vertex: trainNetwork.getVertexSet()){
         string name = vertex->getStation().getName();
@@ -298,39 +310,13 @@ void Database::largermaintenancebudget(){
     sort(municips2.begin(), municips2.end(), [](const std::pair<string,int> &left, const std::pair<string,int> &right) {
         return left.second > right.second;
     });
-    for(auto vertex: trainNetwork.getVertexSet()){
-        string name = vertex->getStation().getName();
-        string district = vertex->getStation().getDistrict();
-        if(find(districts.begin(),districts.end(),district) != districts.end()){
-            continue;
-        }
-        districts.push_back(district);
-        for(auto vertex: trainNetwork.getVertexSet()){
-            string name2 = vertex->getStation().getName();
-            string district2 = vertex->getStation().getDistrict();
-            if(district2 == district && name2 != name){
-                result += trainNetwork.edmondsKarp(name,name2,district);
-            }
-        }
-        districts2.push_back(make_pair(district,result));
-        result = 0;
-    }
-    sort(districts2.begin(), districts2.end(), [](const std::pair<string,int> &left, const std::pair<string,int> &right) {
-        return left.second > right.second;
-    });
-    cout << "Top " << to_string(opt) <<" Municipalities:" << "\n";
     for(int i = 0;i<opt;i++){
         cout << municips2[i].first;
         cout << "\n";
     }
-    cout << "\n";
-    cout << "Top " << to_string(opt) <<" Districts:" << "\n";
-    for(int i = 0;i<opt;i++){
-        cout << districts2[i].first;
-        cout << "\n";
-    }
 }
 
+/*
 void Database::mostaffectedstations(){
     vector<affect> vec;
     vector<pair<Station,Station>> stat;
@@ -360,4 +346,5 @@ void Database::mostaffectedstations(){
     }
 }
 
+ */
 
