@@ -64,23 +64,23 @@ bool Graph::removeVertex(Station &station2){
  * Returns true if successful, and false if the source or destination vertex does not exist.
  */
 
-bool Graph::addEdge(Station &sourc, Station &dest, double w, const std::string &service) {
+bool Graph::addEdge(Station &sourc, Station &dest, double w, const std::string &service, int cost) {
     auto v1 = findVertex(sourc);
     auto v2 = findVertex(dest);
     if (v1 == nullptr || v2 == nullptr)
         return false;
-    v1->addEdge(v2, w,service);
+    v1->addEdge(v2, w,service, cost);
     return true;
 }
 
 bool
-Graph::addBidirectionalEdge(Station &sourc, Station &dest, double w, const std::string &service) {
+Graph::addBidirectionalEdge(Station &sourc, Station &dest, double w, const std::string &service, int cost) {
     auto v1 = findVertex(sourc);
     auto v2 = findVertex(dest);
     if (v1 == nullptr || v2 == nullptr)
         return false;
-    auto e1 = v1->addEdge(v2, w,service);
-    auto e2 = v2->addEdge(v1, w,service);
+    auto e1 = v1->addEdge(v2, w,service, cost);
+    auto e2 = v2->addEdge(v1, w,service, cost);
     e1->setReverse(e2);
     e2->setReverse(e1);
     return true;
@@ -301,47 +301,7 @@ void Graph::augmentFlow(Vertex *s, Vertex *t, double f) {
 
 
 
-bool Graph::dijkstra(std::string& source, std::string& dest) {
 
-    std::priority_queue<Vertex *> q;
-    for (auto *v: vertexSet) {
-        v->setVisited(false);
-        v->setDist(INT32_MAX);
-        v->setPath(nullptr);
-    }
-    Vertex *a = findVertexName(source);
-    a->setDist(0);
-    q.push(a);
-
-    while (!q.empty()) {
-        Vertex *top = q.top();
-        q.pop();
-
-        if (top->isVisited()) continue;
-        top->setVisited(true);
-
-        if (top->getStation().getName() == dest) {
-            break;
-        }
-        for (Edge *railway: top->getOutgoing(top)) {
-
-            Vertex * contender = findVertex(railway->getDest()->getStation());
-            if (contender->isVisited()) continue;
-
-            double cost = (railway->getService() == "STANDARD" ? 2 : 4);
-            double residualCapacity = railway->getWeight()-railway->getFlow();
-
-            if (contender->getDist() > top->getDist() + cost && residualCapacity>0) {
-                contender->setDist(top->getDist() + cost);
-                contender->setPath(railway);
-                q.push(contender);
-            }
-        }
-    }
-
-    if (!findVertexName(dest)->isVisited()) return false;
-    return true;
-}
 
 
 void Graph::printPath(Station* orig, Station* dest){
@@ -361,32 +321,48 @@ void Graph::printPath(Station* orig, Station* dest){
     }
 }
 
-double Graph::optimalCostTrains(const std::string& source, const std::string& destiny){
-    for (auto v: vertexSet) {
-        for (auto e: v->getAdj()) {
-            e->setFlow(0);
+class NodeComparator {
+public:
+    bool operator()(Vertex *node1, const Vertex* node2) {
+        return node1->getCost() > node2->getCost();
+    }
+};
+
+// function to perform Dijkstra's algorithm
+void Graph::dijkstra(string first, string second) {
+    std::priority_queue<Vertex*, std::vector<Vertex*>, NodeComparator> pq;
+
+    Vertex* startNode = findVertexName(first);
+    startNode->setCost(0.0);
+    startNode->addPathForCost(first);
+    pq.push(startNode);
+    while (!pq.empty()) {
+        Vertex* currentVertex = pq.top();
+        pq.pop();
+        if (currentVertex->isVisited()) {
+            continue;
+        }
+        currentVertex->setVisited(true);
+        if(currentVertex == findVertexName(second)) {
+            std::cout << "Shortest path from " << first << " to " << second << " is:";
+            for (auto node : currentVertex->getPathForCost()) {
+                std::cout << " " << node;
+            }
+            std::cout << " (cost = " << currentVertex->getCost() << ")" << std::endl;
+            return;
+        }
+        for (auto edge : currentVertex->getAdj()) {
+            Vertex* nextNode = edge->getDest();
+            if (!nextNode->isVisited()) {
+                double newCost = currentVertex->getCost() + edge->getCost();
+                if (newCost < nextNode->getCost()) {
+                    // found a shorter path to nextNode, update its cost and path
+                    nextNode->setCost(newCost);
+                    nextNode->setPathForCost(currentVertex->getPathForCost());
+                    nextNode->addPathForCost(currentVertex->getStation().getName());
+                    pq.push(nextNode);
+                }
+            }
         }
     }
-    Vertex* s = findVertexName(source);
-    Vertex* d = findVertexName(destiny);
-    auto sourceStation = s->getStation();
-    auto destinyStation = d->getStation();
-
-
-    if(sourceStation == destinyStation){
-        return -3;
-    }
-
-    double minCost = std::numeric_limits<double>::infinity();
-    while(dijkstra(const_cast<std::string &>(sourceStation.getName()),
-                   const_cast<std::string &>(destinyStation.getName()))){
-        printPath(&sourceStation, &destinyStation);
-        auto residualCapacity = minResidualCapacity(&sourceStation, &destinyStation);
-        augmentFlow(findVertex(sourceStation), findVertex(destinyStation), residualCapacity);
-        minCost = std::min(minCost, findVertex(destinyStation)->getDist()*residualCapacity);
-        std::cout << ". The cost of this path is " << findVertex(destinyStation)->getDist()*residualCapacity << "€;\n";
-    }
-
-    return minCost;
 }
-

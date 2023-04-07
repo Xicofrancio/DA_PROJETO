@@ -40,8 +40,8 @@ public:
      * destination vertices and the edge weight (w).
      * Returns true if successful, and false if the source or destination vertex does not exist.
      */
-    bool addEdge(Station &sourc,Station &dest, double w, const std::string &service);
-    bool addBidirectionalEdge(Station &sourc, Station &dest, double w, const std::string &service);
+    bool addEdge(Station &sourc,Station &dest, double w, const std::string &service, int cost);
+    bool addBidirectionalEdge(Station &sourc, Station &dest, double w, const std::string &service, int cost);
 
     int getNumVertex() const;
     std::vector<Vertex *> getVertexSet() const;
@@ -49,7 +49,7 @@ public:
 
     void testAndVisit(std::queue< Vertex*> &q, Edge *e, Vertex *w, double residual);
     void augmentFlow(Vertex *s, Vertex *t, double f);
-    bool dijkstra(std::string& source, std::string& dest);
+    void dijkstra(string first, string second);
     void printPath(Station* orig, Station* dest);
     double minResidual(Vertex *s, Vertex *t);
     bool augmentingPath(Vertex *s, Vertex *t);

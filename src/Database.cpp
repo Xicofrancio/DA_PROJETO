@@ -32,6 +32,7 @@ void Database::loadStationInfo() {
         if (it == stations.end()) {
             stations.emplace(name, a);
             trainNetwork.addVertex(a);
+
         }
 
     }
@@ -39,6 +40,7 @@ void Database::loadStationInfo() {
 
 void Database::loadNetworkInfo() {
     int capacity;
+    int id = 0;
     string staA, staB, service, line;
     double w = 0;
     ifstream in;
@@ -61,7 +63,15 @@ void Database::loadNetworkInfo() {
             networks.emplace(a,w);
             auto iterator2 = stations.find(staA);
             auto iterator3 = stations.find(staB);
-            trainNetwork.addBidirectionalEdge(iterator2->second,iterator3->second, capacity, service);
+            int cost = 0;
+            if(service == "STANDARD"){
+                cost = 2;
+            }else if(service == "ALFA PENDULAR"){
+                cost = 4;
+            }
+            trainNetwork.addBidirectionalEdge(iterator2->second,iterator3->second, capacity, service, cost);
+
+
         }
 
     }
@@ -170,7 +180,7 @@ void Database::subGraph(){
             for (Edge *edge: deleteEdge) {
                 Station s1 = edge->getOrig()->getStation();
                 Station s2 = edge->getDest()->getStation();
-                trainNetwork.addBidirectionalEdge(s1, s2, edge->getWeight(), edge->getService());
+                trainNetwork.addBidirectionalEdge(s1, s2, edge->getWeight(), edge->getService(), edge->getCost());
                 delete edge;
             }
             menu();
@@ -232,7 +242,7 @@ void Database::maximumNArriveStation(){
     for(Vertex* vertex: trainNetwork.getVertexSet()){
         if(vertex->getAdj().size() == 1 && trainNetwork.findAugmentingPath(vertex,station)){
             Station s2 = vertex->getStation();
-            trainNetwork.addBidirectionalEdge(s,s2,INT32_MAX,"");
+            trainNetwork.addBidirectionalEdge(s,s2,INT32_MAX,"", numeric_limits<int>::max());
         }
     }
 
@@ -253,9 +263,8 @@ void Database::maxTrainsminCost() {
     cout << "Enter the second station: ";
     getline(cin,s2);
 
-    double resultado = trainNetwork.optimalCostTrains(s1, s2);
+    trainNetwork.dijkstra(s1, s2);
 
-    cout << resultado;
 
 }
 

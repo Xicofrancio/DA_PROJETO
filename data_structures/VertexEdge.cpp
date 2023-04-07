@@ -11,8 +11,8 @@ Vertex::Vertex(Station station1): station(station1) {}
  * Auxiliary function to add an outgoing edge to a vertex (this),
  * with a given destination vertex (d) and edge weight (w).
  */
-Edge * Vertex::addEdge(Vertex *d, double w, const string& service) {
-    auto newEdge = new Edge(this, d, w, service);
+Edge * Vertex::addEdge(Vertex *d, double w, const string& service, int cost) {
+    auto newEdge = new Edge(this, d, w, service, cost);
     adj.push_back(newEdge);
     d->incoming.push_back(newEdge);
     return newEdge;
@@ -150,7 +150,7 @@ std::vector<Edge *> Vertex::getOutgoing(Vertex *v) const {
 
 /********************** Edge  ****************************/
 
-Edge::Edge(Vertex *orig, Vertex *dest, double w, const string& service): orig(orig), dest(dest), weight(w), service(service){}
+Edge::Edge(Vertex *orig, Vertex *dest, double w, const string& service, int cost): orig(orig), dest(dest), weight(w), service(service), cost(cost){}
 
 Vertex * Edge::getDest() const {
     return this->dest;
@@ -192,3 +192,38 @@ string Edge::getService() const {
     return this->service;
 }
 
+double Edge::getCost() const {
+    return cost;
+}
+
+void Edge::setCost(double cost) {
+    this->cost = cost;
+}
+
+int Vertex::getId() const {
+    return id;
+}
+
+void Vertex::setId(int id) {
+    this->id = id;
+}
+
+void Vertex::addPathForCost(string basicString) {
+    pathcost.push_back(basicString);
+}
+
+std::vector<string> Vertex::getPathForCost() {
+    return pathcost;
+}
+
+int Vertex::getCost() const {
+    return cost;
+}
+
+void Vertex::setCost(int cost) {
+    this->cost = cost;
+}
+
+void Vertex::setPathForCost(vector<string> vector1) {
+    pathcost = vector1;
+}
