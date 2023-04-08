@@ -39,19 +39,13 @@ public:
     void maximumNArriveStation();
     void largermaintenancebudget();
     void mostaffectedstations();
+    int maximumNArriveStation2(string stationname);
 private:
     Graph trainNetwork;
     unordered_map<std::string,Station> stations;
     unordered_map<Network,double,Hash> networks;
-
     void stationInfo(string name);
-};
-
-struct affect
-{
-    Station a;
-    Station b;
-    int dif;
+    vector<Edge *> deleteEdge;
 };
 
 

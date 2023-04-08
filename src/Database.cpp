@@ -138,8 +138,6 @@ void Database::menu() {
 }
 
 void Database::subGraph(){
-    vector<Edge *> deleteEdge;
-
     while (true) {
         cout << "--------------------------------------------------------\n";
         cout << "|                                                      |\n";
@@ -176,7 +174,7 @@ void Database::subGraph(){
         } else if (opt == 2) {
             maxFLow();
         } else if (opt == 3) {
-            //mostaffectedstations();
+            mostaffectedstations();
         } else if (opt == 4) {
             for (Edge *edge: deleteEdge) {
                 Station s1 = edge->getOrig()->getStation();
@@ -314,37 +312,66 @@ void Database::largermaintenancebudget(){
         cout << municips2[i].first;
         cout << "\n";
     }
+    loadStationInfo();
+    loadNetworkInfo();
 }
 
-/*
 void Database::mostaffectedstations(){
-    vector<affect> vec;
-    vector<pair<Station,Station>> stat;
-    Graph New(trainNetwork);
+    vector<pair<string,int>> vec;
+    vector<Station> stat;
     int opt;
     cout << "Enter the number of stations: ";
     cin >> opt;
 
     for(auto v1: trainNetwork.getVertexSet()){
-        for(auto v2 : trainNetwork.getVertexSet()){
-            if(find(stat.begin(),stat.end(),make_pair(v1->getStation(),v2->getStation())) != stat.end() || find(stat.begin(),stat.end(),make_pair(v2->getStation(),v1->getStation())) != stat.end()){
-                stat.emplace_back(make_pair(v1->getStation(),v2->getStation()));
-                int newflow = trainNetwork.edmondsKarp(v1->getStation().getName(),v2->getStation().getName());
-                int oldflow = New.edmondsKarp(v1->getStation().getName(),v2->getStation().getName());
-                int dif = oldflow-newflow;
-                vec.push_back({v1->getStation(),v2->getStation(),dif});
+        if(find(stat.begin(),stat.end(),v1->getStation()) == stat.end()){
+            stat.push_back(v1->getStation());
+            int newflow = maximumNArriveStation2(v1->getStation().getName());
+            for (Edge *edge: deleteEdge){
+                Station t1 = edge->getOrig()->getStation();
+                Station t2 = edge->getDest()->getStation();
+                trainNetwork.addBidirectionalEdge(t1,t2,edge->getWeight(),edge->getService(),edge->getCost());
             }
+            int oldflow = maximumNArriveStation2(v1->getStation().getName());
+            for (Edge *edge: deleteEdge){
+                trainNetwork.removeBidirectionalEdge(edge->getOrig(),edge->getDest());
+            }
+            int dif = oldflow-newflow;
+            vec.emplace_back(make_pair(v1->getStation().getName(),dif));
         }
     }
-    sort(vec.begin(), vec.end(), [](affect &left,affect &right) {
-        return left.dif > right.dif;
+    sort(vec.begin(), vec.end(), [](const std::pair<string,int> &left, const std::pair<string,int> &right) {
+        return left.second > right.second;
     });
     cout << "Top " << to_string(opt) <<" affected stations:" << "\n";
     for(int i = 0;i<opt;i++){
-        cout << vec[i].a.getName() << " " << vec[i].b.getName();
+        cout << vec[i].first;
         cout << "\n";
     }
 }
 
- */
+int Database::maximumNArriveStation2(string stationname){
+    Vertex *station = trainNetwork.findVertexName(stationname);
 
+    Station s = Station("s","","","","");
+    trainNetwork.addVertex(s);
+
+    for(Vertex* vertex: trainNetwork.getVertexSet()){
+        if(!(vertex->getStation().getName() == stationname) && vertex->getAdj().size() ==1 ){
+            for (auto v : trainNetwork.getVertexSet()){
+                for(auto edge : v->getAdj()){
+                    edge->setFlow(0);
+                }
+            }
+            if(trainNetwork.findAugmentingPath(vertex,station)){
+                Station temp = vertex->getStation();
+                trainNetwork.addBidirectionalEdge(s,temp,numeric_limits<int>::max(),"",numeric_limits<int>::max());
+            }
+        }
+
+    }
+    int max = trainNetwork.edmondsKarp(s.getName(),stationname);
+    loadStationInfo();
+    loadNetworkInfo();
+    return max;
+}
