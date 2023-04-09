@@ -80,19 +80,17 @@ void Database::menu() {
         cout << "--------------------------------------------------------\n";
         cout << "|      Welcome to the Railway Network Management       |\n";
         cout << "|                                                      |\n";
-        cout << "| 1 - Show Station info                                |\n";
-        cout << "| 2 - Graph info                                       |\n";
-        cout << "| 3 - Calculate the maximum number of trains that can  |\n";
+        cout << "| 1 - Calculate the maximum number of trains that can  |\n";
         cout << "| simultaneously travel between two specific stations. |\n";
-        cout << "| 4 - Calculate pairs of stations that require the     |\n";
+        cout << "| 2 - Calculate pairs of stations that require the     |\n";
         cout << "| most amount of trains.                               |\n";
-        cout << "| 5 - Subgraph                                         |\n";
-        cout << "| 6 - The maximum number of trains that can            |\n";
+        cout << "| 3 - Subgraph                                         |\n";
+        cout << "| 4 - The maximum number of trains that can            |\n";
         cout << "| simultaneously arrive at a given station             |\n";
-        cout << "| 7 - Calculate the maximum amount of trains that can  |\n";
+        cout << "| 5 - Calculate the maximum amount of trains that can  |\n";
         cout << "| simultaneously travel between two specific           |\n";
         cout << "| stations with minimum cost for the company           |\n";
-        cout << "| 8 - Calculate where should management assign         |\n";
+        cout << "| 6 - Calculate where should management assign         |\n";
         cout << "| larger budgets                                       |\n";
         cout << "| 9 - Settings                                         |\n";
         cout << "| 0 - Exit                                             |\n";
@@ -112,23 +110,17 @@ void Database::menu() {
                 mostAmountTrains();
                 break;
             case 3:
-                largermaintenancebudget();
+                subGraph();
                 break;
             case 4:
                 maximumNArriveStation();
                 break;
             case 5:
-                //to implement
-                break;
-            case 6:
-                subGraph();
-                break;
-            case 7:
-
                 maxTrainsminCost();
                 break;
-            case 8:
+            case 6:
                 largermaintenancebudget();
+                break;
             default:
                 cout << "Invalid input!" << endl;
                 break;
