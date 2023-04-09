@@ -193,6 +193,8 @@ void Database::subGraph(){
 
 }
 
+/// @brief prints the station info
+/// @note T = O(V)
 void Database::stationInfo(std::string name) {
 
     vector<Vertex*> vertex = trainNetwork.getVertexSet();
@@ -201,6 +203,8 @@ void Database::stationInfo(std::string name) {
     }
 }
 
+/// @brief prints the maximum number of trains that can simultaneously travel between two specific stations
+/// @note T = O(VE^2)
 void Database::maxFLow() {
     string s1, s2;
     cin.ignore(1, '\n');
@@ -218,6 +222,7 @@ void Database::maxFLow() {
 
 }
 
+/// @brief prints the pairs of stations that require the most amount of trains
 void Database::mostAmountTrains(){
 
     vector<pair<pair<Station,Station>,int>> result = trainNetwork.mostAmountTrains();
@@ -228,6 +233,8 @@ void Database::mostAmountTrains(){
     }
 }
 
+/// @brief prints the maximum number of trains that can simultaneously arrive at a given station
+/// @note T = O(VE^2)
 void Database::maximumNArriveStation(){
     string name;
     cin.ignore(1, '\n');
@@ -262,7 +269,8 @@ void Database::maximumNArriveStation(){
 
 }
 
-
+/// @brief prints the the maximum amount of trains that can simultaneously travel between two specific stations with minimum cost for the company
+/// @note T = O(VE^2)
 void Database::maxTrainsminCost() {
     double maxTrains;
     string s1, s2;
@@ -279,18 +287,22 @@ void Database::maxTrainsminCost() {
 
 }
 
-
+/// @brief prints where should management assign larger budgets
+/// @note T = O(VE^2)
 void Database::largermaintenancebudget(){
     vector<pair<string,int>> municips2;
+    vector<pair<string,int>> districts2;
     vector<string> municips;
+    vector<string> districts;
     int result;
 
     int opt;
-    cout << "Enter the top-k stations: ";
+    cout << "Enter the top-k municipalities and districts: ";
     cin >> opt;
     for(auto vertex: trainNetwork.getVertexSet()){
         string name = vertex->getStation().getName();
         string municip = vertex->getStation().getMunicipality();
+        // checks if the municipality was already seen
         if(find(municips.begin(),municips.end(),municip) != municips.end()){
             continue;
         }
@@ -299,23 +311,54 @@ void Database::largermaintenancebudget(){
             string name2 = vertex->getStation().getName();
             string municip2 = vertex->getStation().getMunicipality();
             if(municip2 == municip && name2 != name){
+                // add max flow
                 result += trainNetwork.edmondsKarp(name,name2,municip);
             }
         }
         municips2.push_back(make_pair(municip,result));
         result = 0;
     }
+    //sort municipalities based on the sum of the maxflows
     sort(municips2.begin(), municips2.end(), [](const std::pair<string,int> &left, const std::pair<string,int> &right) {
         return left.second > right.second;
     });
+    for(auto vertex: trainNetwork.getVertexSet()){
+        string name = vertex->getStation().getName();
+        string district = vertex->getStation().getDistrict();
+        if(find(districts.begin(),districts.end(),district) != districts.end()){
+            continue;
+        }
+        districts.push_back(district);
+        for(auto vertex: trainNetwork.getVertexSet()){
+            string name2 = vertex->getStation().getName();
+            string district2 = vertex->getStation().getDistrict();
+            if(district2 == district && name2 != name){
+                result += trainNetwork.edmondsKarp(name,name2,district);
+            }
+        }
+        districts2.push_back(make_pair(district,result));
+        result = 0;
+    }
+    sort(districts2.begin(), districts2.end(), [](const std::pair<string,int> &left, const std::pair<string,int> &right) {
+        return left.second > right.second;
+    });
+    cout << "Top " << to_string(opt) <<" Municipalities:" << "\n";
     for(int i = 0;i<opt;i++){
         cout << municips2[i].first;
+        cout << "\n";
+    }
+    cout << "\n";
+    cout << "Top " << to_string(opt) <<" Districts:" << "\n";
+    for(int i = 0;i<opt;i++){
+        cout << districts2[i].first;
         cout << "\n";
     }
     loadStationInfo();
     loadNetworkInfo();
 }
 
+/// @brief prints the top affected stations by segment failures
+/// @note T = O(VE^2)
 void Database::mostaffectedstations(){
     vector<pair<string,int>> vec;
     vector<Station> stat;
