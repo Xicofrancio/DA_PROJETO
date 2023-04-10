@@ -29,24 +29,28 @@ std::string const &Network::getService() const{
 }
 
 /// @brief This function sets the network source station
+///@param source station name to be set
 /// @note T = O(1)
 void Network::setSrc(const std::string stationA) {
     this->stationA = stationA;
 }
 
 /// @brief This function sets the network destinaton station
+///@param destination station name to be set
 /// @note T = O(1)
 void Network::setDest(const std::string stationB) {
     this->stationB = stationB;
 }
 
 /// @brief This function sets the network capacity
+///@param capacity to be set
 /// @note T = O(1)
 void Network::setCapacity(const int capacity) {
     this->capacity = capacity;
 }
 
 /// @brief This function sets the network service
+///@param service to be set
 /// @note T = O(1)
 void Network::setService(const std::string service) {
     this->service =service;

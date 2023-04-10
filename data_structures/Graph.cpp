@@ -112,7 +112,7 @@ Graph::~Graph() {
 
 
 
-int Graph::edmondsKarp(const string &source,const string &dest, string municip) const{
+int Graph::edmondsKarp(const string &source,const string &dest, string municip, string district) const{
     auto s = findVertexName(source);
     auto t = findVertexName(dest);
 
@@ -128,7 +128,7 @@ int Graph::edmondsKarp(const string &source,const string &dest, string municip) 
 
     int max_flow = 0;
 
-    while (findAugmentingPath(s, t)) {
+    while (findAugmentingPath(s, t,municip,district)) {
         int pathFlow = std::numeric_limits<int>::max();
 
         for (auto v = t; v != s;) {
@@ -160,7 +160,7 @@ int Graph::edmondsKarp(const string &source,const string &dest, string municip) 
     return (max_flow ? max_flow : -1);
 }
 
-bool Graph::findAugmentingPath(Vertex *source, Vertex *dest) const {
+bool Graph::findAugmentingPath(Vertex *source, Vertex *dest,string municip, string district) const {
     for (auto v: vertexSet) {
         v->setVisited(false);
     }
@@ -174,7 +174,9 @@ bool Graph::findAugmentingPath(Vertex *source, Vertex *dest) const {
 
         for (auto e: v->getAdj()) {
             auto w = e->getDest();
-            if (!w->isVisited() && e->getWeight() - e->getFlow() > 0 ) {
+            //sets the path with the condition of visiting only nodes with the same municipality or district
+            //in case none of this parameters is specified then there are no restrictions
+            if (!w->isVisited() && e->getWeight() - e->getFlow() > 0 && (( w->getStation().getMunicipality() == municip || w->getStation().getDistrict() == district) || (municip == "" && district == ""))) {
                 w->setVisited(true);
                 w->setPath(e);
                 q.push(w);
@@ -183,7 +185,7 @@ bool Graph::findAugmentingPath(Vertex *source, Vertex *dest) const {
 
         for (auto e: v->getIncoming()) {
             auto w = e->getOrig();
-            if (!w->isVisited() && e->getFlow() > 0) {
+            if (!w->isVisited() && e->getFlow() > 0 && (( w->getStation().getMunicipality() == municip || w->getStation().getDistrict() == district) || (municip == "" && district == ""))) {
                 w->setVisited(true);
                 w->setPath(e);
                 q.push(w);

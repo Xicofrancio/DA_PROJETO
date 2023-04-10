@@ -35,30 +35,35 @@ const std::string &Station::getTownship() const {
 }
 
 /// @brief This function sets the station name
+///@param station name to be set
 /// @note T = O(1)
 void Station::setName(const std::string &name) {
     this->name = name;
 }
 
 /// @brief This function sets the station district
+///@param district name to be set
 /// @note T = O(1)
 void Station::setDistrict(const std::string &district) {
     this->district = district;
 }
 
 /// @brief This function sets the station line
+///@param line to be set
 /// @note T = O(1)
 void Station::setLine(const std::string &line) {
     this->line = line;
 }
 
 /// @brief This function sets the station municipality
+///@param municipality to be set
 /// @note T = O(1)
 void Station::setMunicipality(const std::string &municipality) {
     this->municipality = municipality;
 }
 
 /// @brief This function sets the station township
+///@param station township name to be set
 /// @note T = O(1)
 void Station::setTownship(const std::string &township) {
     this->township = township;

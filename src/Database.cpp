@@ -75,6 +75,7 @@ void Database::loadNetworkInfo() {
     }
 }
 
+/// @brief Main menu of all the program with all the functionalities
 void Database::menu() {
     while (true){
         cout << "--------------------------------------------------------\n";
@@ -129,6 +130,7 @@ void Database::menu() {
     }
 }
 
+/// @brief Secondary menu with all the functionalities given a subgraph created by the user
 void Database::subGraph(){
     while (true) {
         cout << "--------------------------------------------------------\n";
@@ -185,7 +187,7 @@ void Database::subGraph(){
 
 }
 
-/// @brief prints the station info
+/// @brief prints the station name
 /// @note T = O(V)
 void Database::stationInfo(std::string name) {
 
@@ -325,12 +327,13 @@ void Database::largermaintenancebudget(){
             string name2 = vertex->getStation().getName();
             string district2 = vertex->getStation().getDistrict();
             if(district2 == district && name2 != name){
-                result += trainNetwork.edmondsKarp(name,name2,district);
+                result += trainNetwork.edmondsKarp(name,name2,"",district);
             }
         }
         districts2.push_back(make_pair(district,result));
         result = 0;
     }
+    //sort districts based on the sum of the maxflows
     sort(districts2.begin(), districts2.end(), [](const std::pair<string,int> &left, const std::pair<string,int> &right) {
         return left.second > right.second;
     });
@@ -359,9 +362,11 @@ void Database::mostaffectedstations(){
     cin >> opt;
 
     for(auto v1: trainNetwork.getVertexSet()){
+        //checks if the station was already checked
         if(find(stat.begin(),stat.end(),v1->getStation()) == stat.end()){
             stat.push_back(v1->getStation());
             int newflow = maximumNArriveStation2(v1->getStation().getName());
+            //deletes edges of the graph to simulate the old graph and then calculate the old maximum arrive at a given station
             for (Edge *edge: deleteEdge){
                 Station t1 = edge->getOrig()->getStation();
                 Station t2 = edge->getDest()->getStation();
@@ -371,10 +376,12 @@ void Database::mostaffectedstations(){
             for (Edge *edge: deleteEdge){
                 trainNetwork.removeBidirectionalEdge(edge->getOrig(),edge->getDest());
             }
+            //difference between the old and the new max arriving trains to a given station
             int dif = oldflow-newflow;
             vec.emplace_back(make_pair(v1->getStation().getName(),dif));
         }
     }
+    //sort based on the dif value
     sort(vec.begin(), vec.end(), [](const std::pair<string,int> &left, const std::pair<string,int> &right) {
         return left.second > right.second;
     });
@@ -385,6 +392,9 @@ void Database::mostaffectedstations(){
     }
 }
 
+/// @brief Same as maximumNArriveStation but with a return type
+///@param name of the station
+/// @note T = O(VE^2)
 int Database::maximumNArriveStation2(string stationname){
     Vertex *station = trainNetwork.findVertexName(stationname);
 

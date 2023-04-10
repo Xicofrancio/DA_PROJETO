@@ -54,8 +54,8 @@ public:
     bool augmentingPath(Vertex *s, Vertex *t);
     int edmondsKarp(Vertex* s, Vertex* t);
     double optimalCostTrains(const std::string& source, const std::string& destiny);
-    bool findAugmentingPath(Vertex *source, Vertex *dest) const;
-    int edmondsKarp(const string &source,const string &dest, string municip = "") const;
+    bool findAugmentingPath(Vertex *source, Vertex *dest,string municip = "",string district = "") const;
+    int edmondsKarp(const string &source,const string &dest, string municip = "",string district = "") const;
     double edmondsKarpCost(Station* sourceStation, Station* destinyStation);
     std::pair<double,double> minResidualCapacityCost(Station* source, Station* destiny);
     Edge* removeBidirectionalEdge(Vertex *s, Vertex *t);
