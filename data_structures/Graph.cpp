@@ -347,6 +347,10 @@ public:
 
 // function to perform Dijkstra's algorithm
 void Graph::dijkstra(string first, string second) {
+    for (auto vertex : vertexSet){
+        vertex->setVisited(false);
+        vertex->setCost(numeric_limits<int>::max());
+    }
     std::priority_queue<Vertex*, std::vector<Vertex*>, NodeComparator> pq;
 
     Vertex* startNode = findVertexName(first);
